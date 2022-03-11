@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Content = styled.div`
@@ -45,7 +46,7 @@ const Table = styled.table`
   }
 `;
 
-export default function AllUsers() {
+export default function AllUsers({ users }) {
   return (
     <Content>
       <div className="box">
@@ -58,26 +59,17 @@ export default function AllUsers() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>John Doe</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>John Doe</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>John Doe</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>John Doe</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>John Doe</td>
-              <td>1000</td>
-            </tr>
+            {users &&
+              users.map((user) => {
+                return (
+                  <tr>
+                    <td>
+                      <Link to={`${user.id}`}>{user.name}</Link>
+                    </td>
+                    <td>{user.balance}</td>
+                  </tr>
+                );
+              })}
           </tbody>
         </Table>
       </div>

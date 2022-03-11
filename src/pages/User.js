@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const Content = styled.div`
@@ -86,11 +87,14 @@ const Content = styled.div`
   }
 `;
 
-export default function NewUser() {
+export default function NewUser({ users }) {
+  const userParams = useParams();
+  const currentUser = users.find((user) => user.id == userParams.id);
+
   return (
     <Content>
       <div className="box">
-        <h1>John Doe</h1>
+        <h1>{currentUser.name}</h1>
         <p>
           Current Balance: <span>1000</span>
         </p>

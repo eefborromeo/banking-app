@@ -1,21 +1,4 @@
-import React from "react";
-// import styled from "styled-components";
-//
-// export default function NewUser() {
-//   return (
-//     <FormLayout>
-//       <h3>Add New User</h3>
-//       <div className="input">
-//         <p>Name</p>
-//         <input type="text" />
-//       </div>
-//       <div className="input">
-//         <p>Initial Balance</p>
-//         <input type="number" />
-//       </div>
-//       <button type="submit">Add User</button>
-//     </FormLayout>
-//   );
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const Content = styled.div`
@@ -63,19 +46,47 @@ const Content = styled.div`
   }
 `;
 
-export default function User() {
+export default function User({ users, setUsers }) {
+  const [name, setName] = useState("");
+  const [balance, setBalance] = useState("");
+
+  const nameInputHandler = (e) => {
+    setName(e.target.value);
+  };
+  const balanceInputHandler = (e) => {
+    setBalance(e.target.value);
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    const user = {
+      id: users.length + 1,
+      name: name,
+      balance: balance,
+    };
+
+    setUsers([...users, user]);
+    setName("");
+    setBalance("");
+  };
+
   return (
     <Content>
       <div className="box">
         <h1>Create New User</h1>
-        <form>
+        <form onSubmit={submitHandler}>
           <div>
             <p>Name</p>
-            <input type="text" />
+            <input value={name} onChange={nameInputHandler} type="text" />
           </div>
           <div>
             <p>Initial Balance</p>
-            <input type="number" />
+            <input
+              value={balance}
+              onChange={balanceInputHandler}
+              type="number"
+            />
           </div>
           <button type="submit">Submit</button>
         </form>
@@ -83,48 +94,3 @@ export default function User() {
     </Content>
   );
 }
-
-// const FormLayout = styled.form`
-//   background: #fff;
-//   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
-//   border-radius: 25px;
-//   height: 35%;
-//   width: 30%;
-//   padding: 1em;
-//
-//   h3 {
-//     text-align: left;
-//     font-size: 2rem;
-//     padding-bottom: 0.2em;
-//     border-bottom: black 1px solid;
-//     margin-bottom: 1em;
-//   }
-//
-//   .input {
-//     margin: 1em 0;
-//   }
-//
-//   input {
-//     margin-top: 0.5em;
-//     width: 100%;
-//     font-size: 1.5rem;
-//     border: 2px solid #3b84c6;
-//     border-radius: 0.3em;
-//   }
-//
-//   input[type="number"] {
-//     -moz-appearance: textfield;
-//   }
-//
-//   button {
-//     font-size: 1.5rem;
-//     display: block;
-//     margin-top: 2em;
-//     margin: 0 auto;
-//     border: none;
-//     background: #3b84c6;
-//     color: #eee;
-//     border-radius: 0.5em;
-//     padding: 0.5rem;
-//   }
-// `;
