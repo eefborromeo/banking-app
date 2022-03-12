@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -89,14 +89,28 @@ const Content = styled.div`
 
 export default function NewUser({ users }) {
   const userParams = useParams();
-  const currentUser = users.find((user) => user.id == userParams.id);
+  const foundUser = users.find((user) => user.id == userParams.id);
+  const [currentUser, setCurrentUser] = useState(foundUser);
+  const [deposit, setDeposit] = useState(0);
+
+  const depositInputHandler = (e) => {
+    setDeposit(parseInt(e.target.value));
+  };
+
+  const depositSubmitHandler = (e) => {
+    e.preventDefault();
+    setCurrentUser({
+      ...currentUser,
+      balance: (currentUser.balance += deposit),
+    });
+  };
 
   return (
     <Content>
       <div className="box">
         <h1>{currentUser.name}</h1>
         <p>
-          Current Balance: <span>1000</span>
+          Current Balance: <span>{currentUser.balance}</span>
         </p>
       </div>
       <div className="transactions">
@@ -110,8 +124,12 @@ export default function NewUser({ users }) {
           </div>
           <div className="box">
             <p>Deposits</p>
-            <form>
-              <input type="number" />
+            <form onSubmit={depositSubmitHandler}>
+              <input
+                value={deposit}
+                onChange={depositInputHandler}
+                type="number"
+              />
               <button>Withdraw</button>
             </form>
           </div>
@@ -119,13 +137,13 @@ export default function NewUser({ users }) {
         <div className="box">
           <p>Transfer</p>
           <form>
-            <label for="user">Account Name:</label>
+            <label htmlFor="user">Account Name:</label>
             <select name="user">
               <option>Jose Rizal</option>
             </select>
-            <label for="transfer">Amount:</label>
+            <label htmlFor="transfer">Amount:</label>
             <input type="number" name="transfer" />
-            <label for="remarks">Remarks:</label>
+            <label htmlFor="remarks">Remarks:</label>
             <textarea></textarea>
             <button>Transfer</button>
           </form>
