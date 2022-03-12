@@ -7,8 +7,21 @@ import Home from "./pages/Home";
 import AllUsers from "./pages/AllUsers";
 import User from "./pages/User";
 
+const initialUsers = [
+  {
+    id: 1,
+    name: "spike",
+    balance: 100,
+  },
+  {
+    id: 2,
+    name: "mel",
+    balance: 200,
+  },
+];
+
 function App() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState(initialUsers);
 
   return (
     <div className="App">
