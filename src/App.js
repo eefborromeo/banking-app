@@ -27,6 +27,9 @@ const darkTheme = {
   pageBackground: "#303030",
   boxBackground: "#80808073",
   topBar: "#000",
+  sunBgColor: "#fff",
+  sunColor: "#222",
+  inputBackground: "#545454",
 }
 
 const lightTheme = {
@@ -34,7 +37,9 @@ const lightTheme = {
   textColor: "#222",
   pageBackground: "#ebeaf1",
   boxBackground: "#fff",
-  topBar: "#596DC4", 
+  topBar: "#596DC4",
+  sunBgColor: "#222",
+  sunColor: "#fff"
 }
 
 const themes = {

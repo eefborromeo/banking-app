@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const Form = styled.form`
+    p {
+      color: ${themes => themes.theme.textColor};
+    }
     input {
       border: none;
       border-bottom: 2px solid rgb(236, 236, 236);
       padding: 1rem;
       width: 100%;
       box-sizing: border-box;
+      background: ${themes => themes.theme.inputBackground};
     }
 
     input:nth-child(2) {

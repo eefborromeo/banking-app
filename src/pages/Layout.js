@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
+import { FiSun, FiMoon } from "react-icons/fi";
 
 export default function Layout({ themes, theme, setTheme }) {
   const toggleTheme = () => {
@@ -9,7 +10,6 @@ export default function Layout({ themes, theme, setTheme }) {
     } else {
       setTheme('light');
     }
-    console.log(theme, themes[theme]);
   }
 
 
@@ -17,7 +17,7 @@ export default function Layout({ themes, theme, setTheme }) {
     <div>
       <TopBar>
         <Link to="/">Logo</Link>
-        <button onClick={toggleTheme}>Dark Mode</button>
+        <button onClick={toggleTheme}>{theme === 'light' ? <FiMoon /> : <FiSun />}</button>
       </TopBar>
       <StyledLayout>
         <SideBar>
@@ -102,4 +102,15 @@ const TopBar = styled.div`
   padding: 2rem;
   display: flex;
   justify-content: space-between;
+
+  button {
+    width: 40px;
+    height: 40px;
+    padding-top: 2px;
+    border: none;
+    border-radius: 100%;
+    background: ${themes => themes.theme.sunBgColor};
+    color: ${themes => themes.theme.sunColor};
+    font-size: 20px;
+  }
 `
