@@ -17,6 +17,7 @@ export default function Layout({ themes, theme, setTheme }) {
     <div>
       <TopBar>
         <Link to="/">Logo</Link>
+        <button onClick={toggleTheme}>Dark Mode</button>
       </TopBar>
       <StyledLayout>
         <SideBar>
@@ -31,7 +32,6 @@ export default function Layout({ themes, theme, setTheme }) {
               User Dashboard
             </StyledLink>
           </ul>
-          <button onClick={toggleTheme}>Dark Mode</button>
         </SideBar>
         <OutletLayout>
           <Outlet />
@@ -98,7 +98,8 @@ const OutletLayout = styled.div`
 `;
 
 const TopBar = styled.div`
-  background-color: #596DC4;
+  background-color: ${themes => themes.theme.topBar};
   padding: 2rem;
-
+  display: flex;
+  justify-content: space-between;
 `
