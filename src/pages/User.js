@@ -92,6 +92,7 @@ export default function NewUser({ users }) {
   const foundUser = users.find((user) => user.id == userParams.id);
   const [currentUser, setCurrentUser] = useState(foundUser);
   const [deposit, setDeposit] = useState(0);
+  const [withdraw, setWithdraw] = useState(0);
 
   const depositInputHandler = (e) => {
     setDeposit(parseInt(e.target.value));
@@ -103,6 +104,18 @@ export default function NewUser({ users }) {
       ...currentUser,
       balance: (currentUser.balance += deposit),
     });
+  };
+
+  const withdrawInputHandler = (e) => {
+    setWithdraw(parseInt(e.target.value));
+  };
+
+  const withdrawSubmitHandler = (e) => {
+    e.preventDefault();
+    setCurrentUser({
+      ...currentUser,
+      balance: (currentUser.balance -= withdraw),
+    })
   };
 
   return (
@@ -117,8 +130,8 @@ export default function NewUser({ users }) {
         <div>
           <div className="box">
             <p>Withdraw</p>
-            <form>
-              <input type="number" />
+            <form onSubmit={withdrawSubmitHandler}>
+              <input type="number" value={withdraw} onChange={withdrawInputHandler} />
               <button>Withdraw</button>
             </form>
           </div>
