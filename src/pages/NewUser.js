@@ -1,31 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const Content = styled.div`
-  flex: 1;
-  padding: 2rem;
-  width: 70%;
-
-  .box {
-    background-color: #fff;
-    border-radius: 15px;
-    padding: 2rem;
-    width: 80%;
-    margin: auto;
-    box-shadow: 0px 0px 5px 3px rgba(240, 240, 240, 1);
-
-    h1 {
-      color: #596dc4;
+const Form = styled.form`
+    p {
+      color: ${themes => themes.theme.textColor};
     }
-  }
-
-  form {
     input {
       border: none;
       border-bottom: 2px solid rgb(236, 236, 236);
       padding: 1rem;
       width: 100%;
       box-sizing: border-box;
+      background: ${themes => themes.theme.inputBackground};
     }
 
     input:nth-child(2) {
@@ -43,7 +29,6 @@ const Content = styled.div`
       border-radius: 5px;
       font-weight: bold;
     }
-  }
 `;
 
 export default function User({ users, setUsers }) {
@@ -72,10 +57,9 @@ export default function User({ users, setUsers }) {
   };
 
   return (
-    <Content>
       <div className="box">
         <h1>Create New User</h1>
-        <form onSubmit={submitHandler}>
+        <Form onSubmit={submitHandler}>
           <div>
             <p>Name</p>
             <input value={name} onChange={nameInputHandler} type="text" />
@@ -89,8 +73,7 @@ export default function User({ users, setUsers }) {
             />
           </div>
           <button type="submit">Submit</button>
-        </form>
+        </Form>
       </div>
-    </Content>
   );
 }

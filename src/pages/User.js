@@ -8,15 +8,18 @@ const Content = styled.div`
   padding: 2rem;
 
   .box {
-    background-color: #fff;
+    background-color: ${themes => themes.theme.boxBackground};
     border-radius: 15px;
     padding: 2rem;
     width: 80%;
     margin: 0 auto 1rem;
-    box-shadow: 0px 0px 5px 3px rgba(240, 240, 240, 1);
 
     h1 {
       color: #596dc4;
+    }
+
+    p {
+      color: ${themes => themes.theme.textColor};
     }
 
     span {
@@ -33,7 +36,7 @@ const Content = styled.div`
     gap: 10px;
     > div {
       flex: 1;
-      color: #596dc4;
+      color: ${themes => themes.theme.textColor};
     }
     .box {
       box-sizing: border-box;
@@ -59,6 +62,8 @@ const Content = styled.div`
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 1rem;
+    background: ${themes => themes.theme.inputBackground};
+    color: ${themes => themes.theme.textColor};
   }
   button {
     display: block;
@@ -78,12 +83,15 @@ const Content = styled.div`
     border: none;
     border-bottom: 2px solid rgb(236, 236, 236);
     margin-bottom: 1rem;
+    background: ${themes => themes.theme.inputBackground};
+    color: ${themes => themes.theme.textColor}
   }
 
   textarea {
     width: 100%;
     height: 10vh;
     border: 2px solid rgb(236, 236, 236);
+    background: ${themes => themes.theme.inputBackground}
   }
 `;
 

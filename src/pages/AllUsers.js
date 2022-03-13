@@ -2,25 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const Content = styled.div`
-  width: 70%;
-  flex: 1;
-  padding: 2rem;
-
-  .box {
-    background: #fff;
-    border-radius: 10px;
-    padding: 1rem 2rem;
-    box-shadow: 0px 0px 5px 3px rgba(240, 240, 240, 1);
-    width: 80%;
-    margin: auto;
-
-    h1 {
-      color: #596dc4;
-    }
-  }
-`;
-
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -46,9 +27,8 @@ const Table = styled.table`
   }
 `;
 
-export default function AllUsers({ users }) {
+export default function AllUsers({ users, theme }) {
   return (
-    <Content>
       <div className="box">
         <h1>All Users</h1>
         <Table>
@@ -73,6 +53,5 @@ export default function AllUsers({ users }) {
           </tbody>
         </Table>
       </div>
-    </Content>
   );
 }
