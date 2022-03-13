@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { FiSun, FiMoon } from "react-icons/fi";
 
 export default function Layout({ themes, theme, setTheme }) {
+  const [isSideBarOpen, setIsSideBarOpen] = useState(true);
+
   const toggleTheme = () => {
     if (theme === 'light') {
       setTheme('dark')  
@@ -12,15 +15,22 @@ export default function Layout({ themes, theme, setTheme }) {
     }
   }
 
+  const toggleSideBar = () => isSideBarOpen ? setIsSideBarOpen(false) : setIsSideBarOpen(true)
+
 
   return (
     <div>
       <TopBar>
-        <Link to="/">Logo</Link>
+        <div>
+          <button onClick={toggleSideBar}>
+            <GiHamburgerMenu />
+          </button>
+          <Link to="/">Logo</Link>
+        </div>
         <button onClick={toggleTheme}>{theme === 'light' ? <FiMoon /> : <FiSun />}</button>
       </TopBar>
       <StyledLayout>
-        <SideBar>
+        <SideBar isSideBarOpen={isSideBarOpen}>
           <ul>
             <StyledLink activeClassName="active" to="/users">
               Users List
@@ -59,6 +69,8 @@ const SideBar = styled.div`
   padding: 2rem;
   font-weight: bold;
   font-size: 2rem;
+  position: ${props => props.isSideBarOpen ? 'absolute' : 'static'};
+  left: -100%;
 
   div {
     color: #596dc4;
@@ -112,5 +124,17 @@ const TopBar = styled.div`
     background: ${themes => themes.theme.sunBgColor};
     color: ${themes => themes.theme.sunColor};
     font-size: 20px;
+    cursor: pointer;
+  }
+  div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    button {
+      background: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: ${themes => themes.theme.textColor}
+    }
   }
 `
