@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiMoon, FiSun } from "react-icons/fi";
 
-export default function Layout({ themes, theme, setTheme }) {
+export default function Layout({ theme, setTheme }) {
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
 
   const toggleTheme = () => {

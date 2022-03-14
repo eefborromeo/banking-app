@@ -53,18 +53,15 @@ function App() {
   const [theme, setTheme] = useState("light");
 
   return (
-    <ThemeProvider className="App" theme={themes[theme]} themes={themes}>
+    <ThemeProvider className="App" theme={themes[theme]}>
       <Routes>
         <Route index element={<Home />} />
         <Route
           path="admin"
-          element={<Layout theme={theme} setTheme={setTheme} themes={themes} />}
+          element={<Layout theme={theme} setTheme={setTheme} />}
         >
           <Route index element={<Dashboard />} />
-          <Route
-            path="users"
-            element={<AllUsers users={users} theme={themes[theme]} />}
-          />
+          <Route path="users" element={<AllUsers users={users} />} />
           <Route
             path="new"
             element={<NewUser users={users} setUsers={setUsers} />}
