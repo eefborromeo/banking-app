@@ -1,22 +1,22 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FiSun, FiMoon } from "react-icons/fi";
+import { FiMoon, FiSun } from "react-icons/fi";
 
 export default function Layout({ themes, theme, setTheme }) {
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
 
   const toggleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark')  
+    if (theme === "light") {
+      setTheme("dark");
     } else {
-      setTheme('light');
+      setTheme("light");
     }
-  }
+  };
 
-  const toggleSideBar = () => isSideBarOpen ? setIsSideBarOpen(false) : setIsSideBarOpen(true)
-
+  const toggleSideBar = () =>
+    isSideBarOpen ? setIsSideBarOpen(false) : setIsSideBarOpen(true);
 
   return (
     <div>
@@ -25,21 +25,23 @@ export default function Layout({ themes, theme, setTheme }) {
           <button onClick={toggleSideBar}>
             <GiHamburgerMenu />
           </button>
-          <Link to="/">Logo</Link>
+          <Link to="/admin/">Logo</Link>
         </div>
-        <button onClick={toggleTheme}>{theme === 'light' ? <FiMoon /> : <FiSun />}</button>
+        <button onClick={toggleTheme}>
+          {theme === "light" ? <FiMoon /> : <FiSun />}
+        </button>
       </TopBar>
       <StyledLayout>
         <SideBar isSideBarOpen={isSideBarOpen}>
           <ul>
-            <StyledLink activeClassName="active" to="/users">
+            <StyledLink activeclassname="active" to="/admin/">
+              Dashboard
+            </StyledLink>
+            <StyledLink activeclassname="active" to="/admin/users">
               Users List
             </StyledLink>
-            <StyledLink activeClassName="active" to="/new">
+            <StyledLink activeclassname="active" to="/admin/new">
               Create User
-            </StyledLink>
-            <StyledLink activeClassName="active" to="/user">
-              User Dashboard
             </StyledLink>
           </ul>
         </SideBar>
@@ -54,7 +56,7 @@ export default function Layout({ themes, theme, setTheme }) {
 const StyledLink = styled(NavLink)`
   padding: 1rem;
   text-decoration: none;
-  color: ${themes => themes.theme.textColor};
+  color: ${(themes) => themes.theme.textColor};
 
   &.active {
     background: #596dc4;
@@ -64,12 +66,12 @@ const StyledLink = styled(NavLink)`
 `;
 
 const SideBar = styled.div`
-  background: ${themes => themes.theme.sideBarBackground};
+  background: ${(themes) => themes.theme.sideBarBackground};
   width: 20vw;
   padding: 2rem;
   font-weight: bold;
   font-size: 2rem;
-  position: ${props => props.isSideBarOpen ? 'absolute' : 'static'};
+  position: ${(props) => (props.isSideBarOpen ? "absolute" : "static")};
   left: -100%;
 
   div {
@@ -94,10 +96,10 @@ const OutletLayout = styled.div`
   height: 100vh;
   flex: 1;
   padding: 2rem;
-  background: ${themes => themes.theme.pageBackground};
+  background: ${(themes) => themes.theme.pageBackground};
 
   .box {
-    background: ${themes => themes.theme.boxBackground};
+    background: ${(themes) => themes.theme.boxBackground};
     border-radius: 10px;
     padding: 1rem 2rem;
     width: 80%;
@@ -105,12 +107,12 @@ const OutletLayout = styled.div`
   }
 
   h1 {
-      color: #596dc4;
-    }
+    color: #596dc4;
+  }
 `;
 
 const TopBar = styled.div`
-  background-color: ${themes => themes.theme.topBar};
+  background-color: ${(themes) => themes.theme.topBar};
   padding: 2rem;
   display: flex;
   justify-content: space-between;
@@ -121,8 +123,8 @@ const TopBar = styled.div`
     padding-top: 2px;
     border: none;
     border-radius: 100%;
-    background: ${themes => themes.theme.sunBgColor};
-    color: ${themes => themes.theme.sunColor};
+    background: ${(themes) => themes.theme.sunBgColor};
+    color: ${(themes) => themes.theme.sunColor};
     font-size: 20px;
     cursor: pointer;
   }
@@ -134,7 +136,7 @@ const TopBar = styled.div`
       background: none;
       font-size: 1.5rem;
       cursor: pointer;
-      color: ${themes => themes.theme.textColor}
+      color: ${(themes) => themes.theme.textColor};
     }
   }
-`
+`;
