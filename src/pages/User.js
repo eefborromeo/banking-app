@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useStore from "../store";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -8,7 +9,7 @@ const Content = styled.div`
   padding: 2rem;
 
   .box {
-    background-color: ${themes => themes.theme.boxBackground};
+    background-color: ${(themes) => themes.theme.boxBackground};
     border-radius: 15px;
     padding: 2rem;
     width: 80%;
@@ -19,7 +20,7 @@ const Content = styled.div`
     }
 
     p {
-      color: ${themes => themes.theme.textColor};
+      color: ${(themes) => themes.theme.textColor};
     }
 
     span {
@@ -36,7 +37,7 @@ const Content = styled.div`
     gap: 10px;
     > div {
       flex: 1;
-      color: ${themes => themes.theme.textColor};
+      color: ${(themes) => themes.theme.textColor};
     }
     .box {
       box-sizing: border-box;
@@ -62,8 +63,8 @@ const Content = styled.div`
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 1rem;
-    background: ${themes => themes.theme.inputBackground};
-    color: ${themes => themes.theme.textColor};
+    background: ${(themes) => themes.theme.inputBackground};
+    color: ${(themes) => themes.theme.textColor};
   }
   button {
     display: block;
@@ -83,19 +84,20 @@ const Content = styled.div`
     border: none;
     border-bottom: 2px solid rgb(236, 236, 236);
     margin-bottom: 1rem;
-    background: ${themes => themes.theme.inputBackground};
-    color: ${themes => themes.theme.textColor}
+    background: ${(themes) => themes.theme.inputBackground};
+    color: ${(themes) => themes.theme.textColor};
   }
 
   textarea {
     width: 100%;
     height: 10vh;
     border: 2px solid rgb(236, 236, 236);
-    background: ${themes => themes.theme.inputBackground}
+    background: ${(themes) => themes.theme.inputBackground};
   }
 `;
 
-export default function NewUser({ users }) {
+export default function NewUser() {
+  const users = useStore((state) => state.users);
   const userParams = useParams();
   const foundUser = users.find((user) => user.id == userParams.id);
   const [currentUser, setCurrentUser] = useState(foundUser);
@@ -123,7 +125,7 @@ export default function NewUser({ users }) {
     setCurrentUser({
       ...currentUser,
       balance: (currentUser.balance -= withdraw),
-    })
+    });
   };
 
   return (
@@ -139,7 +141,11 @@ export default function NewUser({ users }) {
           <div className="box">
             <p>Withdraw</p>
             <form onSubmit={withdrawSubmitHandler}>
-              <input type="number" value={withdraw} onChange={withdrawInputHandler} />
+              <input
+                type="number"
+                value={withdraw}
+                onChange={withdrawInputHandler}
+              />
               <button>Withdraw</button>
             </form>
           </div>

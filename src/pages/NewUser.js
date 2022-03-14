@@ -1,37 +1,41 @@
 import React, { useState } from "react";
+import useStore from "../store";
 import styled from "styled-components";
 
 const Form = styled.form`
-    p {
-      color: ${themes => themes.theme.textColor};
-    }
-    input {
-      border: none;
-      border-bottom: 2px solid rgb(236, 236, 236);
-      padding: 1rem;
-      width: 100%;
-      box-sizing: border-box;
-      background: ${themes => themes.theme.inputBackground};
-    }
+  p {
+    color: ${(themes) => themes.theme.textColor};
+  }
+  input {
+    border: none;
+    border-bottom: 2px solid rgb(236, 236, 236);
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    background: ${(themes) => themes.theme.inputBackground};
+  }
 
-    input:nth-child(2) {
-      margin-bottom: 1rem;
-    }
+  input:nth-child(2) {
+    margin-bottom: 1rem;
+  }
 
-    button {
-      display: block;
-      margin-top: 1rem;
-      margin-left: auto;
-      border: none;
-      padding: 0.8rem 1.8rem;
-      background-color: #596dc4;
-      color: white;
-      border-radius: 5px;
-      font-weight: bold;
-    }
+  button {
+    display: block;
+    margin-top: 1rem;
+    margin-left: auto;
+    border: none;
+    padding: 0.8rem 1.8rem;
+    background-color: #596dc4;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+  }
 `;
 
-export default function User({ users, setUsers }) {
+export default function User() {
+  const users = useStore((state) => state.users);
+  const addUser = useStore((state) => state.addUser);
+
   const [name, setName] = useState("");
   const [balance, setBalance] = useState("");
 
@@ -51,29 +55,26 @@ export default function User({ users, setUsers }) {
       balance: balance,
     };
 
-    setUsers([...users, user]);
+    addUser(user);
+
     setName("");
     setBalance("");
   };
 
   return (
-      <div className="box">
-        <h1>Create New User</h1>
-        <Form onSubmit={submitHandler}>
-          <div>
-            <p>Name</p>
-            <input value={name} onChange={nameInputHandler} type="text" />
-          </div>
-          <div>
-            <p>Initial Balance</p>
-            <input
-              value={balance}
-              onChange={balanceInputHandler}
-              type="number"
-            />
-          </div>
-          <button type="submit">Submit</button>
-        </Form>
-      </div>
+    <div className="box">
+      <h1>Create New User</h1>
+      <Form onSubmit={submitHandler}>
+        <div>
+          <p>Name</p>
+          <input value={name} onChange={nameInputHandler} type="text" />
+        </div>
+        <div>
+          <p>Initial Balance</p>
+          <input value={balance} onChange={balanceInputHandler} type="number" />
+        </div>
+        <button type="submit">Submit</button>
+      </Form>
+    </div>
   );
 }
