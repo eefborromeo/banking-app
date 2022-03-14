@@ -20,6 +20,16 @@ const initialUsers = [
     name: "mel",
     balance: 200,
   },
+  {
+    id: 3,
+    name: "jara",
+    balance: 300,
+  },
+  {
+    id: 4,
+    name: "jao",
+    balance: 400,
+  }
 ];
 
 const darkTheme = {
