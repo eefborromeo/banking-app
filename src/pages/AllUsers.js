@@ -29,29 +29,29 @@ const Table = styled.table`
 
 export default function AllUsers({ users, theme }) {
   return (
-      <div className="box">
-        <h1>All Users</h1>
-        <Table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Balance</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users &&
-              users.map((user) => {
-                return (
-                  <tr>
-                    <td>
-                      <Link to={`${user.id}`}>{user.name}</Link>
-                    </td>
-                    <td>{user.balance}</td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </Table>
-      </div>
+    <div className="box">
+      <h1>All Users</h1>
+      <Table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users &&
+            users.map((user) => {
+              return (
+                <tr key={user.id}>
+                  <td>
+                    <Link to={`${user.id}`}>{user.name}</Link>
+                  </td>
+                  <td>{user.balance}</td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </Table>
+    </div>
   );
 }
