@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import useStore from "../store";
 
 const Table = styled.table`
   width: 100%;
@@ -29,7 +30,9 @@ const Table = styled.table`
   }
 `;
 
-export default function AllUsers({ users }) {
+export default function AllUsers() {
+  const users = useStore((state) => state.users);
+
   return (
     <div className="box">
       <h1>All Users</h1>

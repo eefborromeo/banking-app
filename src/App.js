@@ -9,29 +9,6 @@ import AllUsers from "./pages/AllUsers";
 import User from "./pages/User";
 import Dashboard from "./pages/Dashboard";
 
-const initialUsers = [
-  {
-    id: 1,
-    name: "spike",
-    balance: 100,
-  },
-  {
-    id: 2,
-    name: "mel",
-    balance: 200,
-  },
-  {
-    id: 3,
-    name: "jara",
-    balance: 300,
-  },
-  {
-    id: 4,
-    name: "jao",
-    balance: 400,
-  }
-];
-
 const darkTheme = {
   sideBarBackground: "#222",
   textColor: "#fff",
@@ -59,7 +36,6 @@ const themes = {
 };
 
 function App() {
-  const [users, setUsers] = useState(initialUsers);
   const [theme, setTheme] = useState("light");
 
   return (
@@ -71,12 +47,9 @@ function App() {
           element={<Layout theme={theme} setTheme={setTheme} />}
         >
           <Route index element={<Dashboard />} />
-          <Route path="users" element={<AllUsers users={users} />} />
-          <Route
-            path="new"
-            element={<NewUser users={users} setUsers={setUsers} />}
-          />
-          <Route path="users/:id" element={<User users={users} />} />
+          <Route path="users" element={<AllUsers />} />
+          <Route path="new" element={<NewUser />} />
+          <Route path="users/:id" element={<User />} />
         </Route>
       </Routes>
     </ThemeProvider>

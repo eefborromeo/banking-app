@@ -3,9 +3,12 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiMoon, FiSun } from "react-icons/fi";
+import LoginForm from "../components/LoginForm";
+import useStore from "../store";
 
 export default function Layout({ theme, setTheme }) {
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
+  const isAdminLoggedIn = useStore((state) => state.loggedIn);
 
   const toggleTheme = () => {
     if (theme === "light") {
@@ -14,6 +17,10 @@ export default function Layout({ theme, setTheme }) {
       setTheme("light");
     }
   };
+
+  if (!isAdminLoggedIn) {
+    return <LoginForm />;
+  }
 
   const toggleSideBar = () =>
     isSideBarOpen ? setIsSideBarOpen(false) : setIsSideBarOpen(true);
