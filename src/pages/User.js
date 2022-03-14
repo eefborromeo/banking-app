@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useStore from "../store";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -8,7 +9,7 @@ const Content = styled.div`
   padding: 2rem;
 
   .box {
-    background-color: ${themes => themes.theme.boxBackground};
+    background-color: ${(themes) => themes.theme.boxBackground};
     border-radius: 15px;
     padding: 2rem;
     width: 80%;
@@ -19,7 +20,7 @@ const Content = styled.div`
     }
 
     p {
-      color: ${themes => themes.theme.textColor};
+      color: ${(themes) => themes.theme.textColor};
     }
 
     span {
@@ -36,7 +37,7 @@ const Content = styled.div`
     gap: 10px;
     > div {
       flex: 1;
-      color: ${themes => themes.theme.textColor};
+      color: ${(themes) => themes.theme.textColor};
     }
     .box {
       box-sizing: border-box;
@@ -62,8 +63,8 @@ const Content = styled.div`
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 1rem;
-    background: ${themes => themes.theme.inputBackground};
-    color: ${themes => themes.theme.textColor};
+    background: ${(themes) => themes.theme.inputBackground};
+    color: ${(themes) => themes.theme.textColor};
   }
   button {
     display: block;
@@ -83,38 +84,39 @@ const Content = styled.div`
     border: none;
     border-bottom: 2px solid rgb(236, 236, 236);
     margin-bottom: 1rem;
-    background: ${themes => themes.theme.inputBackground};
-    color: ${themes => themes.theme.textColor}
+    background: ${(themes) => themes.theme.inputBackground};
+    color: ${(themes) => themes.theme.textColor};
   }
 
   textarea {
     width: 100%;
     height: 10vh;
     border: 2px solid rgb(236, 236, 236);
-    background: ${themes => themes.theme.inputBackground}
+    background: ${(themes) => themes.theme.inputBackground};
   }
 `;
 
-export default function NewUser({ users }) {
+export default function NewUser() {
+  const users = useStore((state) => state.users);
   const userParams = useParams();
   const foundUser = users.find((user) => user.id == userParams.id);
   const [values, setValues] = useState({
     withdraw_amount: 0,
     deposit_amount: 0,
     transfer_amount: 0,
-  })
+  });
 
   const [currentUser, setCurrentUser] = useState(foundUser);
   const [selectedId, setSelectedId] = useState(2);
 
   const changeHandler = (e) => {
     const key = e.target.id;
-    const value = parseInt(e.target.value)
-    setValues(values => ({
-        ...values,
-        [key]: value,
-    }))
-  }
+    const value = parseInt(e.target.value);
+    setValues((values) => ({
+      ...values,
+      [key]: value,
+    }));
+  };
 
   const depositSubmitHandler = (e) => {
     e.preventDefault();
@@ -129,12 +131,12 @@ export default function NewUser({ users }) {
     setCurrentUser({
       ...currentUser,
       balance: (currentUser.balance -= values.withdraw_amount),
-    })
+    });
   };
 
   const handleSelectedChange = (e) => {
-    setSelectedId(parseInt(e.target.value))
-  }
+    setSelectedId(parseInt(e.target.value));
+  };
 
   const handleSelectedSubmit = (e) => {
     e.preventDefault();
@@ -142,13 +144,13 @@ export default function NewUser({ users }) {
       setCurrentUser({
         ...currentUser,
         balance: (currentUser.balance -= values.transfer_amount),
-      })
-      const selectedUser = users.find(user => user.id === selectedId)
+      });
+      const selectedUser = users.find((user) => user.id === selectedId);
       selectedUser.balance += values.transfer_amount;
     } else {
-      alert(`You don't have enough money!`)
+      alert(`You don't have enough money!`);
     }
-  }
+  };
 
   return (
     <Content>
@@ -163,7 +165,12 @@ export default function NewUser({ users }) {
           <div className="box">
             <p>Withdraw</p>
             <form onSubmit={withdrawSubmitHandler}>
-              <input id="withdraw_amount" type="number" value={values.withdraw_amount} onChange={changeHandler} />
+              <input
+                id="withdraw_amount"
+                type="number"
+                value={values.withdraw_amount}
+                onChange={changeHandler}
+              />
               <button>Withdraw</button>
             </form>
           </div>
@@ -184,15 +191,29 @@ export default function NewUser({ users }) {
           <p>Transfer</p>
           <form onSubmit={handleSelectedSubmit}>
             <label htmlFor="user">Account Name:</label>
-            <select name="user" value={selectedId} onChange={handleSelectedChange}>
-              {users.map(user => {
+            <select
+              name="user"
+              value={selectedId}
+              onChange={handleSelectedChange}
+            >
+              {users.map((user) => {
                 if (user.id !== currentUser.id) {
-                  return <option key={user.id} value={user.id}>{user.name}</option>
+                  return (
+                    <option key={user.id} value={user.id}>
+                      {user.name}
+                    </option>
+                  );
                 }
               })}
             </select>
             <label htmlFor="transfer">Amount:</label>
-            <input id="transfer_amount" type="number" name="transfer" value={values.transfer_amount} onChange={changeHandler} />
+            <input
+              id="transfer_amount"
+              type="number"
+              name="transfer"
+              value={values.transfer_amount}
+              onChange={changeHandler}
+            />
             <label htmlFor="remarks">Remarks:</label>
             <textarea></textarea>
             <button>Transfer</button>
