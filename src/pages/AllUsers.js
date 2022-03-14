@@ -5,6 +5,8 @@ import styled from "styled-components";
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
+  color: ${(themes) => themes.theme.textColor};
+
   tr {
     border-bottom: 1px solid rgba(128, 128, 128, 0.45);
     th {
@@ -27,7 +29,7 @@ const Table = styled.table`
   }
 `;
 
-export default function AllUsers({ users, theme }) {
+export default function AllUsers({ users }) {
   return (
     <div className="box">
       <h1>All Users</h1>
