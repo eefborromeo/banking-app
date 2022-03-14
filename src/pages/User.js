@@ -98,33 +98,37 @@ const Content = styled.div`
 export default function NewUser({ users }) {
   const userParams = useParams();
   const foundUser = users.find((user) => user.id == userParams.id);
-  const [currentUser, setCurrentUser] = useState(foundUser);
-  const [deposit, setDeposit] = useState(0);
-  const [withdraw, setWithdraw] = useState(0);
-  const [selectedId, setSelectedId] = useState(0);
-  const [sendAmount, setSendAmount] = useState(0);
+  const [values, setValues] = useState({
+    withdraw_amount: 0,
+    deposit_amount: 0,
+    transfer_amount: 0,
+  })
 
-  const depositInputHandler = (e) => {
-    setDeposit(parseInt(e.target.value));
-  };
+  const [currentUser, setCurrentUser] = useState(foundUser);
+  const [selectedId, setSelectedId] = useState(2);
+
+  const changeHandler = (e) => {
+    const key = e.target.id;
+    const value = parseInt(e.target.value)
+    setValues(values => ({
+        ...values,
+        [key]: value,
+    }))
+  }
 
   const depositSubmitHandler = (e) => {
     e.preventDefault();
     setCurrentUser({
       ...currentUser,
-      balance: (currentUser.balance += deposit),
+      balance: (currentUser.balance += values.deposit_amount),
     });
-  };
-
-  const withdrawInputHandler = (e) => {
-    setWithdraw(parseInt(e.target.value));
   };
 
   const withdrawSubmitHandler = (e) => {
     e.preventDefault();
     setCurrentUser({
       ...currentUser,
-      balance: (currentUser.balance -= withdraw),
+      balance: (currentUser.balance -= values.withdraw_amount),
     })
   };
 
@@ -134,20 +138,16 @@ export default function NewUser({ users }) {
 
   const handleSelectedSubmit = (e) => {
     e.preventDefault();
-    if (sendAmount <= currentUser.balance) {
+    if (values.transfer_amount <= currentUser.balance) {
       setCurrentUser({
         ...currentUser,
-        balance: (currentUser.balance -= sendAmount),
+        balance: (currentUser.balance -= values.transfer_amount),
       })
       const selectedUser = users.find(user => user.id === selectedId)
-      selectedUser.balance += sendAmount;
+      selectedUser.balance += values.transfer_amount;
     } else {
       alert(`You don't have enough money!`)
     }
-  }
-
-  const handleAmountChange = (e) => {
-    setSendAmount(parseInt(e.target.value))
   }
 
   return (
@@ -163,7 +163,7 @@ export default function NewUser({ users }) {
           <div className="box">
             <p>Withdraw</p>
             <form onSubmit={withdrawSubmitHandler}>
-              <input type="number" value={withdraw} onChange={withdrawInputHandler} />
+              <input id="withdraw_amount" type="number" value={values.withdraw_amount} onChange={changeHandler} />
               <button>Withdraw</button>
             </form>
           </div>
@@ -171,8 +171,9 @@ export default function NewUser({ users }) {
             <p>Deposits</p>
             <form onSubmit={depositSubmitHandler}>
               <input
-                value={deposit}
-                onChange={depositInputHandler}
+                id="deposit_amount"
+                value={values.deposit_amount}
+                onChange={changeHandler}
                 type="number"
               />
               <button>Withdraw</button>
@@ -186,12 +187,12 @@ export default function NewUser({ users }) {
             <select name="user" value={selectedId} onChange={handleSelectedChange}>
               {users.map(user => {
                 if (user.id !== currentUser.id) {
-                  return <option value={user.id}>{user.name}</option>
+                  return <option key={user.id} value={user.id}>{user.name}</option>
                 }
               })}
             </select>
             <label htmlFor="transfer">Amount:</label>
-            <input type="number" name="transfer" value={sendAmount} onChange={handleAmountChange} />
+            <input id="transfer_amount" type="number" name="transfer" value={values.transfer_amount} onChange={changeHandler} />
             <label htmlFor="remarks">Remarks:</label>
             <textarea></textarea>
             <button>Transfer</button>
