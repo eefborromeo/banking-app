@@ -101,6 +101,8 @@ export default function NewUser({ users }) {
   const [currentUser, setCurrentUser] = useState(foundUser);
   const [deposit, setDeposit] = useState(0);
   const [withdraw, setWithdraw] = useState(0);
+  const [selectedId, setSelectedId] = useState(0);
+  const [sendAmount, setSendAmount] = useState(0);
 
   const depositInputHandler = (e) => {
     setDeposit(parseInt(e.target.value));
@@ -125,6 +127,28 @@ export default function NewUser({ users }) {
       balance: (currentUser.balance -= withdraw),
     })
   };
+
+  const handleSelectedChange = (e) => {
+    setSelectedId(parseInt(e.target.value))
+  }
+
+  const handleSelectedSubmit = (e) => {
+    e.preventDefault();
+    if (sendAmount <= currentUser.balance) {
+      setCurrentUser({
+        ...currentUser,
+        balance: (currentUser.balance -= sendAmount),
+      })
+      const selectedUser = users.find(user => user.id === selectedId)
+      selectedUser.balance += sendAmount;
+    } else {
+      alert(`You don't have enough money!`)
+    }
+  }
+
+  const handleAmountChange = (e) => {
+    setSendAmount(parseInt(e.target.value))
+  }
 
   return (
     <Content>
@@ -157,13 +181,17 @@ export default function NewUser({ users }) {
         </div>
         <div className="box">
           <p>Transfer</p>
-          <form>
+          <form onSubmit={handleSelectedSubmit}>
             <label htmlFor="user">Account Name:</label>
-            <select name="user">
-              <option>Jose Rizal</option>
+            <select name="user" value={selectedId} onChange={handleSelectedChange}>
+              {users.map(user => {
+                if (user.id !== currentUser.id) {
+                  return <option value={user.id}>{user.name}</option>
+                }
+              })}
             </select>
             <label htmlFor="transfer">Amount:</label>
-            <input type="number" name="transfer" />
+            <input type="number" name="transfer" value={sendAmount} onChange={handleAmountChange} />
             <label htmlFor="remarks">Remarks:</label>
             <textarea></textarea>
             <button>Transfer</button>
