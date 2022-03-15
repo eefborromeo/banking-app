@@ -4,11 +4,8 @@ import logo from "../images/logo.png"
 import phone from "../images/phone.png"
 
 const Background = styled.div`
+  height: 100%;
   background-color: #596dc4;
-  height: 100vh;
-  * {
-    box-sizing: border-box;
-  }
 `
 
 const LogoContainer = styled.div`
@@ -37,11 +34,11 @@ const FlexContainer = styled.div`
     }
   }
   h1 {
-    font-size: 5rem;
+    font-size: 70px;
     margin-bottom: 1rem;
   }
   p {
-    font-size: 2rem;
+    font-size: 30px;
     margin-bottom: 1rem;
   }
 
@@ -88,7 +85,9 @@ const FlexContainer = styled.div`
 const ImageContainer = styled.div`
   width: 80%;
   img {
-    width: 100%;
+    width: 85%;
+    height: 85vh;
+    object-fit: contain;
   }
   @media (max-width: 768px) {
     width: 100%;
