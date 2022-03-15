@@ -10,6 +10,7 @@ import logo from '../images/logo.png'
 export default function Layout({ theme, setTheme }) {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const isAdminLoggedIn = useStore((state) => state.loggedIn);
+  const logOut = useStore((state) => state.logOut);
 
   const toggleTheme = () => {
     if (theme === "light") {
@@ -53,6 +54,7 @@ export default function Layout({ theme, setTheme }) {
             <StyledLink activeclassname="active" to="/admin/new">
               Create User
             </StyledLink>
+            <button onClick={() => logOut()}>Log Out</button>
           </ul>
         </SideBar>
         <OutletLayout>
