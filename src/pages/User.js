@@ -128,10 +128,14 @@ export default function NewUser() {
 
   const withdrawSubmitHandler = (e) => {
     e.preventDefault();
-    setCurrentUser({
-      ...currentUser,
-      balance: (currentUser.balance -= values.withdraw_amount),
-    });
+    if (currentUser.balance < values.withdraw_amount) {
+      alert("you don't have enough money!");
+    } else {
+      setCurrentUser({
+        ...currentUser,
+        balance: (currentUser.balance -= values.withdraw_amount),
+      });
+    }
   };
 
   const handleSelectedChange = (e) => {
@@ -140,15 +144,15 @@ export default function NewUser() {
 
   const handleSelectedSubmit = (e) => {
     e.preventDefault();
-    if (values.transfer_amount <= currentUser.balance) {
+    if (values.transfer_amount > currentUser.balance) {
+      alert(`You don't have enough money!`);
+    } else {
       setCurrentUser({
         ...currentUser,
         balance: (currentUser.balance -= values.transfer_amount),
       });
       const selectedUser = users.find((user) => user.id === selectedId);
       selectedUser.balance += values.transfer_amount;
-    } else {
-      alert(`You don't have enough money!`);
     }
   };
 
@@ -175,7 +179,7 @@ export default function NewUser() {
             </form>
           </div>
           <div className="box">
-            <p>Deposits</p>
+            <p>Deposit</p>
             <form onSubmit={depositSubmitHandler}>
               <input
                 id="deposit_amount"
@@ -183,7 +187,7 @@ export default function NewUser() {
                 onChange={changeHandler}
                 type="number"
               />
-              <button>Withdraw</button>
+              <button>Deposit</button>
             </form>
           </div>
         </div>

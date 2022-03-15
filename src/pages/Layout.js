@@ -7,7 +7,7 @@ import LoginForm from "../components/LoginForm";
 import useStore from "../store";
 
 export default function Layout({ theme, setTheme }) {
-  const [isSideBarOpen, setIsSideBarOpen] = useState(true);
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const isAdminLoggedIn = useStore((state) => state.loggedIn);
 
   const toggleTheme = () => {
@@ -41,10 +41,10 @@ export default function Layout({ theme, setTheme }) {
       <StyledLayout>
         <SideBar isSideBarOpen={isSideBarOpen}>
           <ul>
-            <StyledLink activeclassname="active" to="/admin/">
+            <StyledLink activeclassname="active" end to="/admin">
               Dashboard
             </StyledLink>
-            <StyledLink activeclassname="active" to="/admin/users">
+            <StyledLink activeclassname="active" end to="/admin/users">
               Users List
             </StyledLink>
             <StyledLink activeclassname="active" to="/admin/new">
