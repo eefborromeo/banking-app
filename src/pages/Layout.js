@@ -5,6 +5,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FiMoon, FiSun } from "react-icons/fi";
 import LoginForm from "../components/LoginForm";
 import useStore from "../store";
+import logo from '../images/logo.png'
 
 export default function Layout({ theme, setTheme }) {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
@@ -32,7 +33,9 @@ export default function Layout({ theme, setTheme }) {
           <button onClick={toggleSideBar}>
             <GiHamburgerMenu />
           </button>
-          <Link to="/admin/">Logo</Link>
+          <Link to="/admin/">
+            <img src={logo} alt="Cashpoint Logo" />
+          </Link>
         </div>
         <button onClick={toggleTheme}>
           {theme === "light" ? <FiMoon /> : <FiSun />}
