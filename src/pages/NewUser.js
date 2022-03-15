@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useStore from "../store";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Form = styled.form`
@@ -33,11 +34,12 @@ const Form = styled.form`
 `;
 
 export default function User() {
+  const navigate = useNavigate();
   const users = useStore((state) => state.users);
   const addUser = useStore((state) => state.addUser);
 
   const [name, setName] = useState("");
-  const [balance, setBalance] = useState("");
+  const [balance, setBalance] = useState(0);
 
   const nameInputHandler = (e) => {
     setName(e.target.value);
@@ -55,10 +57,18 @@ export default function User() {
       balance: balance,
     };
 
-    addUser(user);
+    const nameList = users.map((user) => user.name);
 
-    setName("");
-    setBalance("");
+    if (balance < 0) {
+      alert("initial balance can't be negative");
+    } else if (nameList.includes(name)) {
+      alert(`the name "${name}" is already taken`);
+    } else if (name === "") {
+      alert("name can't be empty");
+    } else {
+      addUser(user);
+      navigate("/admin/users");
+    }
   };
 
   return (
