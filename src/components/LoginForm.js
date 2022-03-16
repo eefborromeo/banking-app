@@ -59,7 +59,7 @@ export default function LoginForm() {
 }
 
 const Form = styled.form`
-  height: 33vh;
+  height: 40vh;
   width: 25%;
   padding: 2rem;
   border-radius: 50px;

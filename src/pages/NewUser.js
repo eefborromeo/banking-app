@@ -45,7 +45,7 @@ export default function User() {
     setName(e.target.value);
   };
   const balanceInputHandler = (e) => {
-    setBalance(e.target.value);
+    setBalance(parseInt(e.target.value));
   };
 
   const submitHandler = (e) => {
