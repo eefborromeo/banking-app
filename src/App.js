@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import "./App.css"; // css reset
@@ -8,44 +8,16 @@ import Home from "./pages/Home";
 import AllUsers from "./pages/AllUsers";
 import User from "./pages/User";
 import Dashboard from "./pages/Dashboard";
-
-const darkTheme = {
-  sideBarBackground: "#222",
-  textColor: "#fff",
-  pageBackground: "#303030",
-  boxBackground: "#80808073",
-  topBar: "#000",
-  sunBgColor: "#fff",
-  sunColor: "#222",
-  inputBackground: "#545454",
-};
-
-const lightTheme = {
-  pageBackground: "#fff",
-  textColor: "#222",
-  pageBackground: "#ebeaf1",
-  boxBackground: "#fff",
-  topBar: "#596DC4",
-  sunBgColor: "#222",
-  sunColor: "#fff",
-};
-
-const themes = {
-  dark: darkTheme,
-  light: lightTheme,
-};
+import useStore from "./store";
 
 function App() {
-  const [theme, setTheme] = useState("light");
+  const theme = useStore((state) => state.currentTheme);
 
   return (
-    <ThemeProvider className="App" theme={themes[theme]}>
+    <ThemeProvider className="App" theme={theme}>
       <Routes>
         <Route index element={<Home />} />
-        <Route
-          path="admin"
-          element={<Layout theme={theme} setTheme={setTheme} />}
-        >
+        <Route path="admin" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="users" element={<AllUsers />} />
           <Route path="new" element={<NewUser />} />
