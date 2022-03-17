@@ -77,6 +77,8 @@ const SideBar = styled.div`
   width: 20vw;
   padding: 2rem;
   font-weight: bold;
+  font-family: "Bebas Neue", cursive;
+  letter-spacing: 0.1rem;
   font-size: 2rem;
   position: ${(props) => (props.isSideBarOpen ? "absolute" : "static")};
   left: -100%;
