@@ -5,15 +5,18 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FiMoon, FiSun } from "react-icons/fi";
 import LoginForm from "../components/LoginForm";
 import useStore from "../store";
-import logo from '../images/logo.png'
+import logo from "../images/logo.png";
 
-export default function Layout({ theme, setTheme }) {
+export default function Layout() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const isAdminLoggedIn = useStore((state) => state.loggedIn);
+
+  const theme = useStore((state) => state.currentTheme);
+  const setTheme = useStore((state) => state.setTheme);
   const logOut = useStore((state) => state.logOut);
 
   const toggleTheme = () => {
-    if (theme === "light") {
+    if (theme.name === "light") {
       setTheme("dark");
     } else {
       setTheme("light");

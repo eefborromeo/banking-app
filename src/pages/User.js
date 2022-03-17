@@ -98,6 +98,7 @@ const Content = styled.div`
 
 export default function NewUser() {
   const users = useStore((state) => state.users);
+  const addToTransactionsLog = useStore((state) => state.addTransactionsLog);
   const userParams = useParams();
   const foundUser = users.find((user) => user.id == userParams.id);
   const [values, setValues] = useState({
@@ -153,6 +154,14 @@ export default function NewUser() {
       });
       const selectedUser = users.find((user) => user.id === selectedId);
       selectedUser.balance += values.transfer_amount;
+
+      const transaction = {
+        sender: currentUser.name,
+        reciever: selectedUser.name,
+        amount: values.transfer_amount,
+      };
+
+      addToTransactionsLog(transaction);
     }
   };
 
