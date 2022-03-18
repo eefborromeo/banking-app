@@ -44,7 +44,7 @@ const Section = styled.section`
 
   .title {
     h2 {
-      color: #596dc4;
+      color: ${(themes) => themes.theme.thColor};
       font-size: 50px;
       text-align: center;
     }
