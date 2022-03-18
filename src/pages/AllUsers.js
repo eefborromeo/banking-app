@@ -8,6 +8,13 @@ const Table = styled.table`
   border-collapse: collapse;
   color: ${(themes) => themes.theme.textColor};
 
+  a {
+    color: ${(themes) => themes.theme.textColor};
+    text-transform: capitalize;
+    text-decoration: none;
+    
+  }
+
   tr {
     border-bottom: 1px solid rgba(128, 128, 128, 0.45);
     th {
@@ -34,8 +41,8 @@ export default function AllUsers() {
   const users = useStore((state) => state.users);
 
   return (
-    <div className="box">
-      <h1>All Users</h1>
+    <Div className="box">
+      <h1 className="bold">All Users</h1>
       <Table>
         <thead>
           <tr>
@@ -57,6 +64,14 @@ export default function AllUsers() {
             })}
         </tbody>
       </Table>
-    </div>
+    </Div>
   );
 }
+
+const Div = styled.div `
+h1 {
+  color: #596dc4;
+  font-size: 50px;
+  text-align: center;
+}
+`
