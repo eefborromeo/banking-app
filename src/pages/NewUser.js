@@ -3,36 +3,6 @@ import useStore from "../store";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const Form = styled.form`
-  p {
-    color: ${(themes) => themes.theme.textColor};
-  }
-  input {
-    border: none;
-    border-bottom: 2px solid rgb(236, 236, 236);
-    padding: 1rem;
-    width: 100%;
-    box-sizing: border-box;
-    background: ${(themes) => themes.theme.inputBackground};
-  }
-
-  input:nth-child(2) {
-    margin-bottom: 1rem;
-  }
-
-  button {
-    display: block;
-    margin-top: 1rem;
-    margin-left: auto;
-    border: none;
-    padding: 0.8rem 1.8rem;
-    background-color: #596dc4;
-    color: white;
-    border-radius: 5px;
-    font-weight: bold;
-  }
-`;
-
 export default function User() {
   const navigate = useNavigate();
   const users = useStore((state) => state.users);
@@ -72,19 +42,56 @@ export default function User() {
   };
 
   return (
-    <div className="box">
-      <h1>Create New User</h1>
+    <Div className="box">
+      <h1 className="bold">Create New User</h1>
       <Form onSubmit={submitHandler}>
         <div>
-          <p>Name</p>
-          <input value={name} onChange={nameInputHandler} type="text" />
+          <label className="bold" htmlFor="name">Name</label>
+          <input id="name" value={name} onChange={nameInputHandler} type="text" />
         </div>
         <div>
-          <p>Initial Balance</p>
-          <input value={balance} onChange={balanceInputHandler} type="number" />
+          <label className="bold" htmlFor="balance">Initial Balance</label>
+          <input id="balance" value={balance} onChange={balanceInputHandler} type="number" />
         </div>
         <button type="submit">Submit</button>
       </Form>
-    </div>
+    </Div>
   );
 }
+
+const Div = styled.div `
+color: ${(themes) => themes.theme.textColor};
+h1 {
+  color: ${(themes) => themes.theme.thColor};
+  font-size: 50px;
+  text-align: center;
+}
+`
+
+const Form = styled.form`
+  input {
+    border: none;
+    border-bottom: 2px solid rgb(236, 236, 236);
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    background: ${(themes) => themes.theme.inputBackground};
+    color: ${(themes) => themes.theme.textColor};
+  }
+
+  input:nth-child(2) {
+    margin-bottom: 1rem;
+  }
+
+  button {
+    display: block;
+    margin-top: 1rem;
+    margin-left: auto;
+    border: none;
+    padding: 0.8rem 1.8rem;
+    background-color: #596dc4;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+`;
