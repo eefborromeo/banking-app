@@ -31,7 +31,7 @@ export default function Layout() {
     isSideBarOpen ? setIsSideBarOpen(false) : setIsSideBarOpen(true);
 
   return (
-    <div>
+    <ParentDiv>
       <TopBar>
         <div>
           <button onClick={toggleSideBar}>
@@ -57,16 +57,19 @@ export default function Layout() {
             <StyledLink activeclassname="active" to="/admin/new">
               Create User
             </StyledLink>
-            <button onClick={() => logOut()}>Log Out</button>
           </ul>
+          <button onClick={() => logOut()}>Log Out</button>
         </SideBar>
         <OutletLayout>
           <Outlet />
         </OutletLayout>
       </StyledLayout>
-    </div>
+    </ParentDiv>
   );
 }
+const ParentDiv = styled.div`
+height: 100%;
+`
 
 const StyledLink = styled(NavLink)`
   padding: 1rem;
@@ -90,6 +93,9 @@ const SideBar = styled.div`
   font-size: 2rem;
   position: ${(props) => (props.isSideBarOpen ? "absolute" : "static")};
   left: -100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   div {
     color: #596dc4;
@@ -103,14 +109,30 @@ const SideBar = styled.div`
     display: flex;
     flex-direction: column;
   }
+
+  button {
+    display: block;
+    border: #eee 2px solid;
+    color: #eee;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    padding: 0.5rem 0.8rem;
+    background: #596dc4;
+    border-radius: 1rem;
+    cursor: pointer;
+
+    &:hover {
+      background: #eee;
+      color: #596dc4;
+    }
 `;
 
 const StyledLayout = styled.div`
   display: flex;
+  height: 100%;
 `;
 
 const OutletLayout = styled.div`
-  height: 100vh;
   flex: 1;
   padding: 2rem;
   background: ${(themes) => themes.theme.pageBackground};
