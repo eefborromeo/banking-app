@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import useStore from "../store";
 
 export default function UserLoginForm() {
+    const users = useStore((state) => state.users);
+    const logIn = useStore((state) => state.logIn);
     const [values, setValues] = useState({
         username: '',
         password: ''
@@ -16,8 +19,26 @@ export default function UserLoginForm() {
         }));
       };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const getUsers = users.map(({username, password}) => {
+            return {
+                username,
+                password
+            }
+        });
+
+        const matchedUser = getUsers.some(user => JSON.stringify(user) === JSON.stringify(values))
+        
+        if (matchedUser) {
+            logIn();
+        } else {
+            alert('User not found');
+        }
+    }
+
     return (
-        <Form>
+        <Form onSubmit={handleSubmit}>
             <Title>User Login</Title>
             <Field>
             <label>Username:</label>
