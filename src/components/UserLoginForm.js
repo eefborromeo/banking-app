@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 export default function UserLoginForm() {
+    const [values, setValues] = useState({
+        username: '',
+        password: ''
+    })
+
+    const handleChange = (e) => {
+        const key = e.target.name;
+        const value = e.target.value;
+        setValues((values) => ({
+          ...values,
+          [key]: value,
+        }));
+      };
+
     return (
         <Form>
             <Title>User Login</Title>
@@ -9,6 +23,8 @@ export default function UserLoginForm() {
             <label>Username:</label>
             <input
                 name="username"
+                value={values.username}
+                onChange={handleChange}
             />
             </Field>
             <Field>
@@ -16,6 +32,8 @@ export default function UserLoginForm() {
             <input
                 type="password"
                 name="password"
+                value={values.password}
+                onChange={handleChange}
             />
             </Field>
             <button>Login</button>
