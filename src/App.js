@@ -9,7 +9,7 @@ import AllUsers from "./pages/AllUsers";
 import User from "./pages/User";
 import Dashboard from "./pages/Dashboard";
 import useStore from "./store";
-import UserLoginForm from "./components/UserLoginForm";
+import UserLoginForm from "./pages/UserLoginForm";
 
 function App() {
   const theme = useStore((state) => state.currentTheme);
@@ -25,6 +25,7 @@ function App() {
           <Route path="users/:id" element={<User />} />
         </Route>
         <Route path="user">
+          <Route path="signup" element={<UserSignUpForm />} />
           <Route path="login" element={<UserLoginForm />} />
         </Route>
       </Routes>
