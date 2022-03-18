@@ -24,6 +24,7 @@ const darkTheme = {
   sunBgColor: "#fff",
   sunColor: "#222",
   inputBackground: "#545454",
+  thColor: "#fff",
 };
 
 const lightTheme = {
@@ -35,6 +36,7 @@ const lightTheme = {
   topBar: "#596DC4",
   sunBgColor: "#222",
   sunColor: "#fff",
+  thColor: "#596DC4",
 };
 
 const themes = {

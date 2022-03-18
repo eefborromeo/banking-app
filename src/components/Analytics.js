@@ -56,11 +56,11 @@ const Section = styled.div`
   }
   h2 {
     font-size: 60px;
-    color: #596dc4;
+    color: ${(themes) => themes.theme.thColor};
   }
   h3 {
     font-size: 40px;
-    color: #596dc4;
+    color: ${(themes) => themes.theme.thColor};
   }
 
 
