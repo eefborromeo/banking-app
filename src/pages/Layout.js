@@ -1,19 +1,24 @@
 import React, { useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiMoon, FiSun } from "react-icons/fi";
 import LoginForm from "../components/LoginForm";
 import useStore from "../store";
 import logo from "../images/logo.png";
+import UserLoginForm from "./UserLoginForm";
 
 export default function Layout() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const isAdminLoggedIn = useStore((state) => state.loggedIn);
+  const currentUser = useStore((state) => state.currentUser);
+  const userLogOut = useStore((state) => state.userLogOut);
+  const { pathname } = useLocation()
+  
 
   const theme = useStore((state) => state.currentTheme);
   const setTheme = useStore((state) => state.setTheme);
-  const logOut = useStore((state) => state.logOut);
+  const logOut = useStore((state) => state.adminLogOut);
 
   const toggleTheme = () => {
     if (theme.name === "light") {
@@ -23,8 +28,10 @@ export default function Layout() {
     }
   };
 
-  if (!isAdminLoggedIn) {
+  if (!isAdminLoggedIn && pathname.includes("admin")) {
     return <LoginForm />;
+  } else if (!currentUser && !pathname.includes("admin")) {
+    return <UserLoginForm />
   }
 
   const toggleSideBar = () =>
@@ -34,18 +41,25 @@ export default function Layout() {
     <div>
       <TopBar>
         <div>
+          {
+            pathname.includes('admin') &&
           <button onClick={toggleSideBar}>
             <GiHamburgerMenu />
-          </button>
+          </button> 
+          }
           <Link to="/admin/">
             <img src={logo} alt="Cashpoint Logo" />
           </Link>
         </div>
-        <button onClick={toggleTheme}>
-          {theme === "light" ? <FiMoon /> : <FiSun />}
-        </button>
+        <div>
+          <button className="mode" onClick={toggleTheme}>
+            {theme === "light" ? <FiMoon /> : <FiSun />}
+          </button>
+          { !pathname.includes('admin') && <button onClick={userLogOut}>Logout</button> }
+        </div>
       </TopBar>
       <StyledLayout>
+     { pathname.includes('admin') ?
         <SideBar isSideBarOpen={isSideBarOpen}>
           <ul>
             <StyledLink activeclassname="active" end to="/admin">
@@ -59,7 +73,9 @@ export default function Layout() {
             </StyledLink>
             <button onClick={() => logOut()}>Log Out</button>
           </ul>
-        </SideBar>
+        </SideBar> :
+          null
+        }
         <OutletLayout>
           <Outlet />
         </OutletLayout>
@@ -134,7 +150,7 @@ const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
 
-  button {
+  .mode {
     width: 40px;
     height: 40px;
     padding-top: 2px;

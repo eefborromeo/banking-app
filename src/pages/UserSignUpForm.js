@@ -57,7 +57,6 @@ const Form = styled.form`
 export default function UserSignUpForm() {
     return (
         <Background>
-
             <Container>
                 <h1>Sign Up Form</h1>
                 <Form >

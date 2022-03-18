@@ -8,7 +8,7 @@ const admin = {
 };
 
 export default function LoginForm() {
-  const logIn = useStore((state) => state.logIn);
+  const logIn = useStore((state) => state.adminLogIn);
   const [values, setValues] = useState({
     username: "",
     password: "",

@@ -25,9 +25,10 @@ function App() {
           <Route path="new" element={<NewUser />} />
           <Route path="users/:id" element={<User />} />
         </Route>
-        <Route path="user">
+        <Route path="user" element={<Layout />}>
           <Route path="signup" element={<UserSignUpForm />} />
           <Route path="login" element={<UserLoginForm />} />
+          <Route path=":id" element={<User />} />
         </Route>
       </Routes>
     </ThemeProvider>
