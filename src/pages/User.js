@@ -15,7 +15,7 @@ export default function NewUser() {
   });
 
   const [currentUser, setCurrentUser] = useState(foundUser);
-  const [selectedId, setSelectedId] = useState(2);
+  const [selectedId, setSelectedId] = useState(0);
 
   const changeHandler = (e) => {
     const key = e.target.id;
@@ -52,6 +52,10 @@ export default function NewUser() {
 
   const handleSelectedSubmit = (e) => {
     e.preventDefault();
+    if (selectedId === 0) {
+       alert(`Please select a user.`);
+       return
+    }
     if (values.transfer_amount > currentUser.balance) {
       alert(`You don't have enough money!`);
     } else {
@@ -121,6 +125,12 @@ export default function NewUser() {
                   return (
                     <option key={user.id} value={user.id}>
                       {user.name}
+                    </option>
+                  );
+                } else if (selectedId === 0) {
+                  return (
+                    <option key={selectedId} value={selectedId}>
+                      Please Select User
                     </option>
                   );
                 }
