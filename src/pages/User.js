@@ -3,44 +3,213 @@ import useStore from "../store";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+export default function NewUser() {
+  const users = useStore((state) => state.users);
+  const addToTransactionsLog = useStore((state) => state.addTransactionsLog);
+  const userParams = useParams();
+  const foundUser = users.find((user) => user.id == userParams.id);
+  const [values, setValues] = useState({
+    withdraw_amount: 0,
+    deposit_amount: 0,
+    transfer_amount: 0,
+  });
+
+  const [currentUser, setCurrentUser] = useState(foundUser);
+  const [selectedId, setSelectedId] = useState(0);
+
+  const changeHandler = (e) => {
+    const key = e.target.id;
+    const value = parseInt(e.target.value);
+    setValues((values) => ({
+      ...values,
+      [key]: value,
+    }));
+  };
+
+  const depositSubmitHandler = (e) => {
+    e.preventDefault();
+    setCurrentUser({
+      ...currentUser,
+      balance: (currentUser.balance += values.deposit_amount),
+    });
+  };
+
+  const withdrawSubmitHandler = (e) => {
+    e.preventDefault();
+    if (currentUser.balance < values.withdraw_amount) {
+      alert("you don't have enough money!");
+    } else {
+      setCurrentUser({
+        ...currentUser,
+        balance: (currentUser.balance -= values.withdraw_amount),
+      });
+    }
+  };
+
+  const handleSelectedChange = (e) => {
+    setSelectedId(parseInt(e.target.value));
+  };
+
+  const handleSelectedSubmit = (e) => {
+    e.preventDefault();
+    if (selectedId === 0) {
+       alert(`Please select a user.`);
+       return
+    }
+    if (values.transfer_amount > currentUser.balance) {
+      alert(`You don't have enough money!`);
+    } else {
+      setCurrentUser({
+        ...currentUser,
+        balance: (currentUser.balance -= values.transfer_amount),
+      });
+      const selectedUser = users.find((user) => user.id === selectedId);
+      selectedUser.balance += values.transfer_amount;
+
+      const transaction = {
+        sender: currentUser.name,
+        reciever: selectedUser.name,
+        amount: values.transfer_amount,
+      };
+
+      addToTransactionsLog(transaction);
+    }
+  };
+
+  return (
+    <Content>
+      <div className="box flex">
+        <h1 className="bold" >{currentUser.name}</h1>
+        <p>
+          Current Balance: <span className="bold">{currentUser.balance}</span>
+        </p>
+      </div>
+      <div className="transactions">
+        <div>
+          <div className="box">
+            <p className="bold">Withdraw</p>
+            <form onSubmit={withdrawSubmitHandler}>
+              <input
+                id="withdraw_amount"
+                type="number"
+                value={values.withdraw_amount}
+                onChange={changeHandler}
+              />
+              <button>Withdraw</button>
+            </form>
+          </div>
+          <div className="box">
+            <p className="bold">Deposit</p>
+            <form onSubmit={depositSubmitHandler}>
+              <input
+                id="deposit_amount"
+                value={values.deposit_amount}
+                onChange={changeHandler}
+                type="number"
+              />
+              <button>Deposit</button>
+            </form>
+          </div>
+        </div>
+        <div className="box">
+          <p className="bold">Transfer</p>
+          <form onSubmit={handleSelectedSubmit}>
+            <label htmlFor="user">Account Name:</label>
+            <select
+              name="user"
+              value={selectedId}
+              onChange={handleSelectedChange}
+            >
+              {users.map((user) => {
+                if (user.id !== currentUser.id) {
+                  return (
+                    <option key={user.id} value={user.id}>
+                      {user.name}
+                    </option>
+                  );
+                } else if (selectedId === 0) {
+                  return (
+                    <option key={selectedId} value={selectedId}>
+                      Please Select User
+                    </option>
+                  );
+                }
+              })}
+            </select>
+            <label htmlFor="transfer">Amount:</label>
+            <input
+              id="transfer_amount"
+              type="number"
+              name="transfer"
+              value={values.transfer_amount}
+              onChange={changeHandler}
+            />
+            <label htmlFor="remarks">Remarks:</label>
+            <textarea></textarea>
+            <button>Transfer</button>
+          </form>
+        </div>
+      </div>
+    </Content>
+  );
+}
+
+
 const Content = styled.div`
-  width: 70%;
+  width:100%;
   flex: 1;
   padding: 2rem;
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+  }
 
   .box {
     background-color: ${(themes) => themes.theme.boxBackground};
     border-radius: 15px;
     padding: 2rem;
-    width: 80%;
+    width: 100%;
     margin: 0 auto 1rem;
 
+    
+
     h1 {
-      color: #596dc4;
+      color: ${(themes) => themes.theme.thColor};
+      font-size: 50px;
     }
 
     p {
-      color: ${(themes) => themes.theme.textColor};
+      color: ${(themes) => themes.theme.thColor};
+      font-size: 30px;
     }
 
     span {
       font-size: 2rem;
-      color: #596dc4;
+      color: ${(themes) => themes.theme.thColor};
+      font-size: 50px;
+      margin-left: 10px;
     }
   }
 
   .transactions {
     display: flex;
     flex-wrap: wrap;
-    width: 85%;
+    width: 100%;
     margin: auto;
     gap: 10px;
     > div {
       flex: 1;
       color: ${(themes) => themes.theme.textColor};
     }
+    div:nth-child(1) {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
     .box {
       box-sizing: border-box;
+      height: 50%;
       width: 100%;
       margin: 0 0 10px;
       text-align: center;
@@ -81,11 +250,14 @@ const Content = styled.div`
   select {
     width: 100%;
     padding: 5px;
+    outline: none;
     border: none;
+    -o-border: none;
     border-bottom: 2px solid rgb(236, 236, 236);
     margin-bottom: 1rem;
     background: ${(themes) => themes.theme.inputBackground};
     color: ${(themes) => themes.theme.textColor};
+    font-size: 20px;
   }
 
   textarea {
@@ -95,144 +267,3 @@ const Content = styled.div`
     background: ${(themes) => themes.theme.inputBackground};
   }
 `;
-
-export default function NewUser() {
-  const users = useStore((state) => state.users);
-  const addToTransactionsLog = useStore((state) => state.addTransactionsLog);
-  const userParams = useParams();
-  const foundUser = users.find((user) => user.id == userParams.id);
-  const [values, setValues] = useState({
-    withdraw_amount: 0,
-    deposit_amount: 0,
-    transfer_amount: 0,
-  });
-
-  const [currentUser, setCurrentUser] = useState(foundUser);
-  const [selectedId, setSelectedId] = useState(2);
-
-  const changeHandler = (e) => {
-    const key = e.target.id;
-    const value = parseInt(e.target.value);
-    setValues((values) => ({
-      ...values,
-      [key]: value,
-    }));
-  };
-
-  const depositSubmitHandler = (e) => {
-    e.preventDefault();
-    setCurrentUser({
-      ...currentUser,
-      balance: (currentUser.balance += values.deposit_amount),
-    });
-  };
-
-  const withdrawSubmitHandler = (e) => {
-    e.preventDefault();
-    if (currentUser.balance < values.withdraw_amount) {
-      alert("you don't have enough money!");
-    } else {
-      setCurrentUser({
-        ...currentUser,
-        balance: (currentUser.balance -= values.withdraw_amount),
-      });
-    }
-  };
-
-  const handleSelectedChange = (e) => {
-    setSelectedId(parseInt(e.target.value));
-  };
-
-  const handleSelectedSubmit = (e) => {
-    e.preventDefault();
-    if (values.transfer_amount > currentUser.balance) {
-      alert(`You don't have enough money!`);
-    } else {
-      setCurrentUser({
-        ...currentUser,
-        balance: (currentUser.balance -= values.transfer_amount),
-      });
-      const selectedUser = users.find((user) => user.id === selectedId);
-      selectedUser.balance += values.transfer_amount;
-
-      const transaction = {
-        sender: currentUser.name,
-        reciever: selectedUser.name,
-        amount: values.transfer_amount,
-      };
-
-      addToTransactionsLog(transaction);
-    }
-  };
-
-  return (
-    <Content>
-      <div className="box">
-        <h1>{currentUser.name}</h1>
-        <p>
-          Current Balance: <span>{currentUser.balance}</span>
-        </p>
-      </div>
-      <div className="transactions">
-        <div>
-          <div className="box">
-            <p>Withdraw</p>
-            <form onSubmit={withdrawSubmitHandler}>
-              <input
-                id="withdraw_amount"
-                type="number"
-                value={values.withdraw_amount}
-                onChange={changeHandler}
-              />
-              <button>Withdraw</button>
-            </form>
-          </div>
-          <div className="box">
-            <p>Deposit</p>
-            <form onSubmit={depositSubmitHandler}>
-              <input
-                id="deposit_amount"
-                value={values.deposit_amount}
-                onChange={changeHandler}
-                type="number"
-              />
-              <button>Deposit</button>
-            </form>
-          </div>
-        </div>
-        <div className="box">
-          <p>Transfer</p>
-          <form onSubmit={handleSelectedSubmit}>
-            <label htmlFor="user">Account Name:</label>
-            <select
-              name="user"
-              value={selectedId}
-              onChange={handleSelectedChange}
-            >
-              {users.map((user) => {
-                if (user.id !== currentUser.id) {
-                  return (
-                    <option key={user.id} value={user.id}>
-                      {user.name}
-                    </option>
-                  );
-                }
-              })}
-            </select>
-            <label htmlFor="transfer">Amount:</label>
-            <input
-              id="transfer_amount"
-              type="number"
-              name="transfer"
-              value={values.transfer_amount}
-              onChange={changeHandler}
-            />
-            <label htmlFor="remarks">Remarks:</label>
-            <textarea></textarea>
-            <button>Transfer</button>
-          </form>
-        </div>
-      </div>
-    </Content>
-  );
-}

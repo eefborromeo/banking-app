@@ -5,7 +5,7 @@ export default function Profile() {
   return (
     <Section>
     <div className="greeting">
-      <h2>Good Morning, Admin!</h2>
+      <h2 className="bold">Good Morning, Admin!</h2>
       <h5>
         What would you like to do today?
       </h5>

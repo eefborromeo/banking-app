@@ -12,7 +12,7 @@ export default function Analytics() {
       <div className="analytic ">
         <div className="content">
           <h5>Total Money In Account</h5>
-          <h2>
+          <h2 className="bold">
             {total}
           </h2>
         </div>
@@ -20,19 +20,21 @@ export default function Analytics() {
       <div className="analytic">
         <div className="content">
           <h5>Total Users in Account</h5>
-          <h2> {users.length} </h2>
+          <h2 className="bold"> {users.length} </h2>
         </div>
       </div>
       <div className="analytic">
         <div className="content">
           <h5>Richest User</h5>
-          <h2>{richestUser.name}</h2>
+          <h2 className="bold">{richestUser.balance}</h2>
+          <h3 className="bold">{richestUser.name}</h3>
         </div>
       </div>
       <div className="analytic ">
         <div className="content">
           <h5>Poorest User</h5>
-          <h2>{poorestUser.name}</h2>
+          <h2 className="bold">{poorestUser.balance}</h2>
+          <h3 className="bold">{poorestUser.name}</h3>
         </div>
       </div>
     </Section>
@@ -46,13 +48,21 @@ const Section = styled.div`
   gap: 1rem;
 
   h5 {
-    font-size: 30px;
+    font-size: 20px;
     margin: 0px;
     padding: 0px;
     line-height:5rem;
+    
   }
   h2 {
+    font-size: 60px;
+    color: ${(themes) => themes.theme.thColor};
   }
+  h3 {
+    font-size: 40px;
+    color: ${(themes) => themes.theme.thColor};
+  }
+
 
   .analytic {
     border-radius: 1rem;
@@ -67,11 +77,6 @@ const Section = styled.div`
     
     }
   
-  .analytic:hover {
-    background-color: #596dc4;
-    color: white;
-		transition: .4s ease-out;
-  }
 
   @media screen and (min-width: 280px) and (max-width: 720px) {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

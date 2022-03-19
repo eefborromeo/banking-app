@@ -8,7 +8,7 @@ export default function Transfers() {
   return (
     <Section>
       <div className="title">
-        <h2>Your Transfers</h2>
+        <h2 className="bold">Your Transfers</h2>
       </div>
       <div className="transactions">
         {transactions.map((transaction) => {
@@ -22,7 +22,7 @@ export default function Transfers() {
                 </div>
               </div>
               <div className="transactionAmount">
-                <span>{transaction.amount}</span>
+                <span className="bold">{transaction.amount}</span>
               </div>
             </div>
           );
@@ -44,8 +44,8 @@ const Section = styled.section`
 
   .title {
     h2 {
-      color: #596dc4;
-      font-size: 30px;
+      color: ${(themes) => themes.theme.thColor};
+      font-size: 50px;
       text-align: center;
     }
   }
@@ -60,6 +60,7 @@ const Section = styled.section`
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      font-size: 15px;
     }
     .transactionAmount {
       padding: 0.2rem 0.5rem;
@@ -67,6 +68,7 @@ const Section = styled.section`
       border-radius: 1rem;
       text-align: center;
       transition: 0.3s ease-in-out;
+      font-size: 20px;
     }
   }
 

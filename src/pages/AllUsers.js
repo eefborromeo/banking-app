@@ -1,7 +1,51 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useStore from "../store";
+
+export default function AllUsers() {
+  const users = useStore((state) => state.users);
+  const navigate = useNavigate();
+
+  function handleClick(id) {
+    navigate(`/admin/users/${id}`);
+  }
+
+  return (
+    <Div className="box">
+      <h1 className="bold">All Users</h1>
+      <Table>
+        <thead>
+          <tr>
+            <th className="bold">Name</th>
+            <th className="bold">Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users &&
+            users.map((user) => {
+              return (
+                <tr onClick={() => handleClick(user.id)} key={user.id}>
+                  <td>
+                    {user.name}
+                  </td>
+                  <td>{user.balance}</td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </Table>
+    </Div>
+  );
+}
+
+const Div = styled.div `
+h1 {
+  color: ${(themes) => themes.theme.thColor};
+  font-size: 50px;
+  text-align: center;
+}
+`
 
 const Table = styled.table`
   width: 100%;
@@ -14,9 +58,12 @@ const Table = styled.table`
       text-align: left;
       padding: 1rem 0;
       color: #596dc4;
+      color: ${(themes) => themes.theme.thColor};
     }
     td {
       padding: 1rem 0.5rem;
+      text-transform: capitalize;
+      text-decoration: none;
     }
   }
 
@@ -27,36 +74,6 @@ const Table = styled.table`
   tbody tr:hover {
     background-color: rgba(117, 138, 229, 1);
     color: white;
+    cursor: pointer;
   }
 `;
-
-export default function AllUsers() {
-  const users = useStore((state) => state.users);
-
-  return (
-    <div className="box">
-      <h1>All Users</h1>
-      <Table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Balance</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users &&
-            users.map((user) => {
-              return (
-                <tr key={user.id}>
-                  <td>
-                    <Link to={`${user.id}`}>{user.name}</Link>
-                  </td>
-                  <td>{user.balance}</td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </Table>
-    </div>
-  );
-}
