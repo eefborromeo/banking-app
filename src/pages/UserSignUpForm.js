@@ -1,6 +1,35 @@
 import React from "react";
 import styled from "styled-components";
 
+export default function UserSignUpForm() {
+    return (
+        <Background>
+            <Container>
+                <h1>Sign Up Form</h1>
+                <Form >
+                    <div>
+                        <label htmlFor="name">Name</label>
+                        <input type="text" id="name" />
+                    </div>
+                    <div>
+                        <label htmlFor="username">Username</label>
+                        <input type="text" id="username" />
+                    </div>
+                    <div>
+                        <label htmlFor="password">Password</label>
+                        <input type="password" id="password" />
+                    </div>
+                    <div>
+                        <label htmlFor="balance">Initial Balance</label>
+                        <input type="number" id="balance" />
+                    </div>
+                    <button type="submit">Sign Up</button>
+                </Form>
+            </Container>
+        </Background>
+    )
+}
+
 const Background = styled.div`
     background: #ebeaf1;
     height: 100%;
@@ -53,32 +82,3 @@ const Form = styled.form`
     font-weight: bold;
   }
 `;
-
-export default function UserSignUpForm() {
-    return (
-        <Background>
-            <Container>
-                <h1>Sign Up Form</h1>
-                <Form >
-                    <div>
-                        <label htmlFor="name">Name</label>
-                        <input type="text" id="name" />
-                    </div>
-                    <div>
-                        <label htmlFor="username">Username</label>
-                        <input type="text" id="username" />
-                    </div>
-                    <div>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" />
-                    </div>
-                    <div>
-                        <label htmlFor="balance">Initial Balance</label>
-                        <input type="number" id="balance" />
-                    </div>
-                    <button type="submit">Sign Up</button>
-                </Form>
-            </Container>
-        </Background>
-    )
-}
