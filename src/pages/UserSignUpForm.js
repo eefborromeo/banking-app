@@ -1,27 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import useStore from "../store";
 
 export default function UserSignUpForm() {
+    const navigate = useNavigate();
+    const users = useStore((state) => state.users);
+    const addUser = useStore((state) => state.addUser);
+    const [userInfo, setUserInfo] = useState({
+        name: '',
+        email: '',
+        username: '',
+        password: '',
+        balance: 0,
+    })
+
+    const handleChange = (e) => {
+        const key = e.target.id;
+        const value = e.target.id;
+        setUserInfo({
+            ...userInfo,
+            [key]: value,
+        })
+    }
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const { name, email, username, password, balance } = userInfo;
+        
+        const user = {
+            id: users.length + 1,
+            name,
+            email,
+            username,
+            password,
+            balance: parseInt(balance)
+        }
+
+        const nameList = users.map((user) => user.name);
+
+        if (nameList.includes(name)) {
+            alert(`the name "${name}" is already taken`);
+        } 
+        addUser(user);
+        
+        navigate(`/user/${user.id}`);
+    }
     return (
         <Background>
             <Container>
                 <h1>Sign Up Form</h1>
-                <Form >
+                <Form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="name">Name</label>
-                        <input type="text" id="name" />
+                        <input type="text" id="name" onChange={handleChange} />
+                    </div>
+                    <div>
+                        <label htmlFor="email">Email</label>
+                        <input type="email" id="email" onChange={handleChange} />
                     </div>
                     <div>
                         <label htmlFor="username">Username</label>
-                        <input type="text" id="username" />
+                        <input type="text" id="username" onChange={handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" />
+                        <input type="password" id="password" onChange={handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="balance">Initial Balance</label>
-                        <input type="number" id="balance" />
+                        <input type="number" id="balance" onChange={handleChange} />
                     </div>
                     <button type="submit">Sign Up</button>
                 </Form>

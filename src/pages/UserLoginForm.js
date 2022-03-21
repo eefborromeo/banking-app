@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useStore from "../store";
 
@@ -11,7 +10,6 @@ export default function UserLoginForm() {
         username: '',
         password: ''
     })
-    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const key = e.target.name;
@@ -36,8 +34,6 @@ export default function UserLoginForm() {
         if (matchedUser) {
             const user = users.find(user => user.username === values.username);
             logIn(user.id);
-            navigate(`/user/${user.id}`)
-            console.log(currentUser);
         } else {
             alert('User not found');
         }
