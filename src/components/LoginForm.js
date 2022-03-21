@@ -39,16 +39,18 @@ export default function LoginForm() {
     <Form onSubmit={HandleSubmit}>
       <Title>Admin Login</Title>
       <Field>
-        <label>Username:</label>
+        <label htmlFor="username">Username:</label>
         <input
+          id="username"
           name="username"
           value={values.username}
           onChange={handleChange}
         />
       </Field>
       <Field>
-        <label>Password:</label>
+        <label htmlFor="password">Password:</label>
         <input
+          id="password"
           type="password"
           name="password"
           value={values.password}
