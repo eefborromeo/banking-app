@@ -141,6 +141,7 @@ const SideBar = styled.div`
       background: #eee;
       color: #596dc4;
     }
+  }
 `;
 
 const StyledLayout = styled.div`
