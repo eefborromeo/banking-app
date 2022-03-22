@@ -6,11 +6,17 @@ const initialUsers = [
     id: 1,
     name: "spike",
     balance: 100,
+    username: 'user1',
+    password: 'user1',
+    email: 'user1@email.com'
   },
   {
     id: 2,
     name: "mel",
     balance: 200,
+    username: 'user2',
+    password: 'user2',
+    email: 'user2@email.com'
   },
 ];
 
@@ -48,16 +54,19 @@ const useStore = create(
   persist(
     (set) => ({
       currentTheme: themes["light"],
-      loggedIn: false,
+      adminLoggedIn: false,
       users: initialUsers,
+      currentUser: false,
       transactionsLog: [],
       setTheme: (themeName) => set(() => ({ currentTheme: themes[themeName] })),
       addTransactionsLog: (transaction) =>
         set((state) => ({
           transactionsLog: [...state.transactionsLog, transaction],
         })),
-      logIn: () => set(() => ({ loggedIn: true })),
-      logOut: () => set(() => ({ loggedIn: false })),
+      adminLogIn: () => set(() => ({ adminLoggedIn: true })),
+      adminLogOut: () => set(() => ({ adminLoggedIn: false })),
+      userLogIn: (id) => set(() => ({ currentUser: id })),
+      userLogOut: () => set(() => ({ currentUser: false })),
       addUser: (newUser) =>
         set((state) => ({ users: [...state.users, newUser] })),
     }),
