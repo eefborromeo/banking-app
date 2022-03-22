@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import useStore from "../store.js";
+import { useStore } from "../store.js";
 
 export default function Transfers() {
   const transactions = useStore((state) => state.transactionsLog);

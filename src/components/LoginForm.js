@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import useStore from "../store";
+import { useStore } from "../store";
 
 const admin = {
   username: "admin",
