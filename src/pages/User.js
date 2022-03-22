@@ -21,6 +21,10 @@ export default function NewUser() {
 
   const [currentUser, setCurrentUser] = useState(foundUser);
   const [selectedId, setSelectedId] = useState(0);
+  const [searchDisplay, setSearchDisplay] = useState(false);
+  const [search, setSearch] = useState('')
+  const [searchList, setSearchList] = useState(users);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const changeHandler = (e) => {
     const key = e.target.id;
@@ -51,10 +55,6 @@ export default function NewUser() {
     }
   };
 
-  const handleSelectedChange = (e) => {
-    setSelectedId(parseInt(e.target.value));
-  };
-
   const handleSelectedSubmit = (e) => {
     e.preventDefault();
     if (selectedId === 0) {
@@ -80,6 +80,26 @@ export default function NewUser() {
       addToTransactionsLog(transaction);
     }
   };
+  
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    search.length === 1 ? setSearchDisplay(false) : setSearchDisplay(true);
+  }
+
+  const handleClick = (e) => {
+    setSearch(e.target.innerHTML);
+    setSelectedId(parseInt(e.target.id));
+    setSearchDisplay(false);
+    setIsDisabled(false);
+  }
+
+  useEffect(() => {
+    if (search === '') {
+      setSearchList(users);
+    } else {
+      setSearchList(users.filter(user => user.name.toLowerCase().match(search.toLowerCase())))
+    }
+  }, [search, users])
 
   return (
     <Content>
@@ -120,27 +140,19 @@ export default function NewUser() {
           <p className="bold">Transfer</p>
           <form onSubmit={handleSelectedSubmit}>
             <label htmlFor="user">Account Name:</label>
-            <select
-              name="user"
-              value={selectedId}
-              onChange={handleSelectedChange}
-            >
-              {users.map((user) => {
-                if (user.id !== currentUser.id) {
-                  return (
-                    <option key={user.id} value={user.id}>
-                      {user.name}
-                    </option>
-                  );
-                } else if (selectedId === 0) {
-                  return (
-                    <option key={selectedId} value={selectedId}>
-                      Please Select User
-                    </option>
-                  );
-                }
-              })}
-            </select>
+            <Dropdown>
+              <input id="user" value={search} onChange={handleSearch} autoComplete="off"/>
+              {
+                searchDisplay &&
+                <div className="options">
+                  {searchList.map((user) => {
+                    if (user.id !== currentUser.id) {
+                      return <div key={user.id} id={user.id} onClick={handleClick}>{user.name}</div>
+                    }
+                  })}
+                </div>
+              }
+            </Dropdown>
             <label htmlFor="transfer">Amount:</label>
             <input
               id="transfer_amount"
@@ -151,7 +163,7 @@ export default function NewUser() {
             />
             <label htmlFor="remarks">Remarks:</label>
             <textarea></textarea>
-            <button>Transfer</button>
+            <button disabled={isDisabled} >Transfer</button>
           </form>
         </div>
       </div>
@@ -250,6 +262,9 @@ const Content = styled.div`
     color: white;
     border-radius: 5px;
     font-weight: bold;
+    :disabled {
+      background-color: rgb(236, 236, 236);
+    }
   }
 
   select {
@@ -272,3 +287,23 @@ const Content = styled.div`
     background: ${(themes) => themes.theme.inputBackground};
   }
 `;
+
+const Dropdown = styled.div`
+  position: relative;
+  .options {
+    position: absolute;
+    width: 100%;
+
+    div {
+      background: rgb(236,236,236);
+      padding: 1rem;
+
+
+      :hover {
+        background: #596DC4;
+        color: #fff;
+      }
+    }
+  }
+
+`
