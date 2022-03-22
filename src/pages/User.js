@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from "react";
 import useStore from "../store";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 export default function NewUser() {
   const users = useStore((state) => state.users);
-  const userFromGlobal = useStore((state) => state.currentUser);
-  const userLogout = useStore((state) => state.userLogOut);
+  const setUsers = useStore((state) => state.setUsers);
   const addToTransactionsLog = useStore((state) => state.addTransactionsLog);
   const userParams = useParams();
-  const location = useLocation();
-
-  const userId = userFromGlobal ? userFromGlobal : userParams.id;
-  const foundUser = users.find((user) => user.id == userId);
+  const currentUser = users.find((user) => user.id == userParams.id);
   const [values, setValues] = useState({
     withdraw_amount: 0,
     deposit_amount: 0,
     transfer_amount: 0,
   });
 
-  const [currentUser, setCurrentUser] = useState(foundUser);
   const [selectedId, setSelectedId] = useState(0);
   const [searchDisplay, setSearchDisplay] = useState(false);
   const [search, setSearch] = useState('')
@@ -37,22 +32,34 @@ export default function NewUser() {
 
   const depositSubmitHandler = (e) => {
     e.preventDefault();
-    setCurrentUser({
-      ...currentUser,
-      balance: (currentUser.balance += values.deposit_amount),
-    });
+    const updatedUsers = users.map(user => {
+      if (user.id == currentUser.id) {
+        return {
+          ...user,
+          balance: user.balance + values.deposit_amount
+        } 
+        } else {
+          return user;
+      } 
+    })
+    setUsers(updatedUsers);
+    setValues((values) => ({...values, deposit_amount:0}))
   };
 
   const withdrawSubmitHandler = (e) => {
     e.preventDefault();
-    if (currentUser.balance < values.withdraw_amount) {
-      alert("you don't have enough money!");
-    } else {
-      setCurrentUser({
-        ...currentUser,
-        balance: (currentUser.balance -= values.withdraw_amount),
-      });
-    }
+    const updatedUsers = users.map(user => {
+      if (user.id == currentUser.id) {
+        return {
+          ...user,
+          balance: user.balance - values.withdraw_amount
+        } 
+        } else {
+          return user;
+      } 
+    })
+    setUsers(updatedUsers);
+    setValues((values) => ({...values, withdraw_amount:0}))
   };
 
   const handleSelectedSubmit = (e) => {
@@ -61,15 +68,25 @@ export default function NewUser() {
        alert(`Please select a user.`);
        return
     }
-    if (values.transfer_amount > currentUser.balance) {
-      alert(`You don't have enough money!`);
-    } else {
-      setCurrentUser({
-        ...currentUser,
-        balance: (currentUser.balance -= values.transfer_amount),
-      });
       const selectedUser = users.find((user) => user.id === selectedId);
-      selectedUser.balance += values.transfer_amount;
+      const updatedUsers = users.map(user => {
+      if (user.id == currentUser.id) {
+        return {
+          ...user,
+          balance: user.balance - values.transfer_amount
+
+        } 
+        } else if (user.id === selectedUser.id) {
+          return {
+            ...user,
+            balance: user.balance + values.transfer_amount
+          }
+        } else {
+          return user;
+      } 
+    })
+    setUsers(updatedUsers)
+      
 
       const transaction = {
         sender: currentUser.name,
@@ -78,7 +95,6 @@ export default function NewUser() {
       };
 
       addToTransactionsLog(transaction);
-    }
   };
   
   const handleSearch = (e) => {
@@ -119,6 +135,7 @@ export default function NewUser() {
                 type="number"
                 value={values.withdraw_amount}
                 onChange={changeHandler}
+                min="0"
               />
               <button>Withdraw</button>
             </form>
@@ -131,6 +148,7 @@ export default function NewUser() {
                 value={values.deposit_amount}
                 onChange={changeHandler}
                 type="number"
+                min="0"
               />
               <button>Deposit</button>
             </form>
@@ -160,6 +178,7 @@ export default function NewUser() {
               name="transfer"
               value={values.transfer_amount}
               onChange={changeHandler}
+              min="0"
             />
             <label htmlFor="remarks">Remarks:</label>
             <textarea></textarea>
