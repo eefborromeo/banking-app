@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useStore from "../store";
+import { useStore } from "../store";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -46,12 +46,26 @@ export default function User() {
       <h1 className="bold">Create New User</h1>
       <Form onSubmit={submitHandler}>
         <div>
-          <label className="bold" htmlFor="name">Name</label>
-          <input id="name" value={name} onChange={nameInputHandler} type="text" />
+          <label className="bold" htmlFor="name">
+            Name
+          </label>
+          <input
+            id="name"
+            value={name}
+            onChange={nameInputHandler}
+            type="text"
+          />
         </div>
         <div>
-          <label className="bold" htmlFor="balance">Initial Balance</label>
-          <input id="balance" value={balance} onChange={balanceInputHandler} type="number" />
+          <label className="bold" htmlFor="balance">
+            Initial Balance
+          </label>
+          <input
+            id="balance"
+            value={balance}
+            onChange={balanceInputHandler}
+            type="number"
+          />
         </div>
         <button type="submit">Submit</button>
       </Form>
@@ -59,14 +73,14 @@ export default function User() {
   );
 }
 
-const Div = styled.div `
-color: ${(themes) => themes.theme.textColor};
-h1 {
-  color: ${(themes) => themes.theme.thColor};
-  font-size: 50px;
-  text-align: center;
-}
-`
+const Div = styled.div`
+  color: ${(themes) => themes.theme.textColor};
+  h1 {
+    color: ${(themes) => themes.theme.thColor};
+    font-size: 50px;
+    text-align: center;
+  }
+`;
 
 const Form = styled.form`
   input {

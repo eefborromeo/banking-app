@@ -5,7 +5,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
 import { FiMoon, FiSun } from "react-icons/fi";
 import LoginForm from "../components/LoginForm";
-import useStore from "../store";
+import { useStore } from "../store";
 import logo from "../images/logo.png";
 import UserLoginForm from "./UserLoginForm";
 
@@ -14,8 +14,7 @@ export default function Layout() {
   const isAdminLoggedIn = useStore((state) => state.adminLoggedIn);
   const currentUser = useStore((state) => state.currentUser);
   const userLogOut = useStore((state) => state.userLogOut);
-  const { pathname } = useLocation()
-  
+  const { pathname } = useLocation();
 
   const theme = useStore((state) => state.currentTheme);
   const setTheme = useStore((state) => state.setTheme);
@@ -32,7 +31,7 @@ export default function Layout() {
   if (!isAdminLoggedIn && pathname.includes("admin")) {
     return <LoginForm />;
   } else if (!currentUser && !pathname.includes("admin")) {
-    return <UserLoginForm />
+    return <UserLoginForm />;
   }
 
   const toggleSideBar = () =>
@@ -42,16 +41,11 @@ export default function Layout() {
     <ParentDiv>
       <TopBar>
         <div>
-          {
-            pathname.includes('admin') &&
-          <button onClick={toggleSideBar}>
-            {
-              isSideBarOpen ? 
-              <GiHamburgerMenu /> :
-              <GrClose />
-            }
-          </button> 
-          }
+          {pathname.includes("admin") && (
+            <button onClick={toggleSideBar}>
+              {isSideBarOpen ? <GiHamburgerMenu /> : <GrClose />}
+            </button>
+          )}
           <Link to="/admin/">
             <img src={logo} alt="Cashpoint Logo" />
           </Link>
@@ -60,27 +54,28 @@ export default function Layout() {
           <button className="mode" onClick={toggleTheme}>
             {theme === "light" ? <FiMoon /> : <FiSun />}
           </button>
-          { !pathname.includes('admin') && <button onClick={userLogOut}>Logout</button> }
+          {!pathname.includes("admin") && (
+            <button onClick={userLogOut}>Logout</button>
+          )}
         </div>
       </TopBar>
       <StyledLayout>
-     { pathname.includes('admin') ?
-        <SideBar isSideBarOpen={isSideBarOpen}>
-          <ul>
-            <StyledLink activeclassname="active" end to="/admin">
-              Dashboard
-            </StyledLink>
-            <StyledLink activeclassname="active" end to="/admin/users">
-              Users List
-            </StyledLink>
-            <StyledLink activeclassname="active" to="/admin/new">
-              Create User
-            </StyledLink>
-          </ul>
-          <button onClick={logOut}>Logout</button> 
-        </SideBar> :
-          null
-        }
+        {pathname.includes("admin") ? (
+          <SideBar isSideBarOpen={isSideBarOpen}>
+            <ul>
+              <StyledLink activeclassname="active" end to="/admin">
+                Dashboard
+              </StyledLink>
+              <StyledLink activeclassname="active" end to="/admin/users">
+                Users List
+              </StyledLink>
+              <StyledLink activeclassname="active" to="/admin/new">
+                Create User
+              </StyledLink>
+            </ul>
+            <button onClick={logOut}>Logout</button>
+          </SideBar>
+        ) : null}
         <OutletLayout>
           <Outlet />
         </OutletLayout>
@@ -89,8 +84,8 @@ export default function Layout() {
   );
 }
 const ParentDiv = styled.div`
-height: 100%;
-`
+  height: 100%;
+`;
 
 const StyledLink = styled(NavLink)`
   padding: 1rem;

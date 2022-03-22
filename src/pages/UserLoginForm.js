@@ -1,67 +1,69 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import useStore from "../store";
+import { useStore } from "../store";
 
 export default function UserLoginForm() {
-    const users = useStore((state) => state.users);
-    const logIn = useStore((state) => state.userLogIn);
-    const currentUser = useStore((state) => state.currentUser);
-    const [values, setValues] = useState({
-        username: '',
-        password: ''
-    })
+  const users = useStore((state) => state.users);
+  const logIn = useStore((state) => state.userLogIn);
+  const currentUser = useStore((state) => state.currentUser);
+  const [values, setValues] = useState({
+    username: "",
+    password: "",
+  });
 
-    const handleChange = (e) => {
-        const key = e.target.name;
-        const value = e.target.value;
-        setValues((values) => ({
-          ...values,
-          [key]: value,
-        }));
+  const handleChange = (e) => {
+    const key = e.target.name;
+    const value = e.target.value;
+    setValues((values) => ({
+      ...values,
+      [key]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const getUsers = users.map(({ username, password }) => {
+      return {
+        username,
+        password,
       };
+    });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const getUsers = users.map(({username, password}) => {
-            return {
-                username,
-                password
-            }
-        });
+    const matchedUser = getUsers.some(
+      (user) => JSON.stringify(user) === JSON.stringify(values)
+    );
 
-        const matchedUser = getUsers.some(user => JSON.stringify(user) === JSON.stringify(values))
-        
-        if (matchedUser) {
-            const user = users.find(user => user.username === values.username);
-            logIn(user.id);
-        } else {
-            alert('User not found');
-        }
+    if (matchedUser) {
+      const user = users.find((user) => user.username === values.username);
+      logIn(user.id);
+    } else {
+      alert("User not found");
     }
+  };
 
-    return (
-        <Form onSubmit={handleSubmit}>
-            <Title>User Login</Title>
-            <Field>
-            <label>Username:</label>
-            <input
-                name="username"
-                value={values.username}
-                onChange={handleChange}
-            />
-            </Field>
-            <Field>
-            <label>Password:</label>
-            <input
-                type="password"
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-            />
-            </Field>
-            <button>Login</button>
-        </Form>
-    )
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Title>User Login</Title>
+      <Field>
+        <label>Username:</label>
+        <input
+          name="username"
+          value={values.username}
+          onChange={handleChange}
+        />
+      </Field>
+      <Field>
+        <label>Password:</label>
+        <input
+          type="password"
+          name="password"
+          value={values.password}
+          onChange={handleChange}
+        />
+      </Field>
+      <button>Login</button>
+    </Form>
+  );
 }
 
 const Form = styled.form`
