@@ -41,6 +41,7 @@ const Section = styled.section`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  overflow-y: scroll;
 
   .title {
     h2 {

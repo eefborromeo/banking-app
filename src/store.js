@@ -60,7 +60,9 @@ const useStore = create(
       logOut: () => set(() => ({ loggedIn: false })),
       addUser: (newUser) =>
         set((state) => ({ users: [...state.users, newUser] })),
+      setUsers: (newUsers) => set(() => ({users: newUsers})), 
     }),
+
     {
       name: "global-store",
     }
