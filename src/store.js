@@ -50,7 +50,7 @@ const themes = {
   light: lightTheme,
 };
 
-const useStore = create(
+export const useStore = create(
   persist(
     (set) => ({
       currentTheme: themes["light"],
@@ -77,5 +77,3 @@ const useStore = create(
     }
   )
 );
-
-export default useStore;
