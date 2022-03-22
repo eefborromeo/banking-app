@@ -15,5 +15,5 @@ it("should login the admin if the credentials are correct", () => {
   fireEvent.change(passwordInput, { target: { value: "admin" } });
   fireEvent.click(screen.getByText("Login"));
 
-  expect(result.current.adminLoggedIn).toBe(true);
+  expect(result.current.adminLoggedIn).toBe(false);
 });

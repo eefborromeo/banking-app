@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import useStore from "../store";
+import { useStore } from "../store";
 
 export default function AllUsers() {
   const users = useStore((state) => state.users);
@@ -26,9 +26,7 @@ export default function AllUsers() {
             users.map((user) => {
               return (
                 <tr onClick={() => handleClick(user.id)} key={user.id}>
-                  <td>
-                    {user.name}
-                  </td>
+                  <td>{user.name}</td>
                   <td>{user.balance}</td>
                 </tr>
               );
@@ -39,13 +37,13 @@ export default function AllUsers() {
   );
 }
 
-const Div = styled.div `
-h1 {
-  color: ${(themes) => themes.theme.thColor};
-  font-size: 50px;
-  text-align: center;
-}
-`
+const Div = styled.div`
+  h1 {
+    color: ${(themes) => themes.theme.thColor};
+    font-size: 50px;
+    text-align: center;
+  }
+`;
 
 const Table = styled.table`
   width: 100%;

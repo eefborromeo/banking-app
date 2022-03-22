@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useStore from "../store";
+import { useStore } from "../store";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -19,7 +19,7 @@ export default function NewUser() {
 
   const [selectedId, setSelectedId] = useState(0);
   const [searchDisplay, setSearchDisplay] = useState(false);
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState("");
   const [searchList, setSearchList] = useState(users);
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -34,95 +34,97 @@ export default function NewUser() {
 
   const depositSubmitHandler = (e) => {
     e.preventDefault();
-    const updatedUsers = users.map(user => {
+    const updatedUsers = users.map((user) => {
       if (user.id == currentUser.id) {
         return {
           ...user,
-          balance: user.balance + values.deposit_amount
-        } 
-        } else {
-          return user;
-      } 
-    })
+          balance: user.balance + values.deposit_amount,
+        };
+      } else {
+        return user;
+      }
+    });
     setUsers(updatedUsers);
-    setValues((values) => ({...values, deposit_amount:0}))
+    setValues((values) => ({ ...values, deposit_amount: 0 }));
   };
 
   const withdrawSubmitHandler = (e) => {
     e.preventDefault();
-    const updatedUsers = users.map(user => {
+    const updatedUsers = users.map((user) => {
       if (user.id == currentUser.id) {
         return {
           ...user,
-          balance: user.balance - values.withdraw_amount
-        } 
-        } else {
-          return user;
-      } 
-    })
+          balance: user.balance - values.withdraw_amount,
+        };
+      } else {
+        return user;
+      }
+    });
     setUsers(updatedUsers);
-    setValues((values) => ({...values, withdraw_amount:0}))
+    setValues((values) => ({ ...values, withdraw_amount: 0 }));
   };
 
   const handleSelectedSubmit = (e) => {
     e.preventDefault();
     if (selectedId === 0) {
-       alert(`Please select a user.`);
-       return
+      alert(`Please select a user.`);
+      return;
     }
-      const selectedUser = users.find((user) => user.id === selectedId);
-      const updatedUsers = users.map(user => {
+    const selectedUser = users.find((user) => user.id === selectedId);
+    const updatedUsers = users.map((user) => {
       if (user.id == currentUser.id) {
         return {
           ...user,
-          balance: user.balance - values.transfer_amount
+          balance: user.balance - values.transfer_amount,
+        };
+      } else if (user.id === selectedUser.id) {
+        return {
+          ...user,
+          balance: user.balance + values.transfer_amount,
+        };
+      } else {
+        return user;
+      }
+    });
+    setUsers(updatedUsers);
 
-        } 
-        } else if (user.id === selectedUser.id) {
-          return {
-            ...user,
-            balance: user.balance + values.transfer_amount
-          }
-        } else {
-          return user;
-      } 
-    })
-    setUsers(updatedUsers)
-      
+    const transaction = {
+      sender: currentUser.name,
+      reciever: selectedUser.name,
+      amount: values.transfer_amount,
+    };
 
-      const transaction = {
-        sender: currentUser.name,
-        reciever: selectedUser.name,
-        amount: values.transfer_amount,
-      };
-
-      addToTransactionsLog(transaction);
+    addToTransactionsLog(transaction);
   };
-  
+
   const handleSearch = (e) => {
     setSearch(e.target.value);
     search.length === 1 ? setSearchDisplay(false) : setSearchDisplay(true);
-  }
+  };
 
   const handleClick = (e) => {
     setSearch(e.target.innerHTML);
     setSelectedId(parseInt(e.target.id));
     setSearchDisplay(false);
     setIsDisabled(false);
-  }
+  };
 
   useEffect(() => {
-    if (search === '') {
+    if (search === "") {
       setSearchList(users);
     } else {
-      setSearchList(users.filter(user => user.name.toLowerCase().match(search.toLowerCase())))
+      setSearchList(
+        users.filter((user) =>
+          user.name.toLowerCase().match(search.toLowerCase())
+        )
+      );
     }
-  }, [search, users])
+  }, [search, users]);
 
   return (
     <Content>
       <div className="box flex">
-        <h1 className="bold" >{currentUser.name}</h1>
+        <h1 className="bold">{currentUser.name}</h1>
         <p>
           Current Balance: <span className="bold">{currentUser.balance}</span>
         </p>
@@ -161,17 +163,25 @@ export default function NewUser() {
           <form onSubmit={handleSelectedSubmit}>
             <label htmlFor="user">Account Name:</label>
             <Dropdown>
-              <input id="user" value={search} onChange={handleSearch} autoComplete="off"/>
-              {
-                searchDisplay &&
+              <input
+                id="user"
+                value={search}
+                onChange={handleSearch}
+                autoComplete="off"
+              />
+              {searchDisplay && (
                 <div className="options">
                   {searchList.map((user) => {
                     if (user.id !== currentUser.id) {
-                      return <div key={user.id} id={user.id} onClick={handleClick}>{user.name}</div>
+                      return (
+                        <div key={user.id} id={user.id} onClick={handleClick}>
+                          {user.name}
+                        </div>
+                      );
                     }
                   })}
                 </div>
-              }
+              )}
             </Dropdown>
             <label htmlFor="transfer">Amount:</label>
             <input
@@ -184,7 +194,7 @@ export default function NewUser() {
             />
             <label htmlFor="remarks">Remarks:</label>
             <textarea></textarea>
-            <button disabled={isDisabled} >Transfer</button>
+            <button disabled={isDisabled}>Transfer</button>
           </form>
         </div>
       </div>
@@ -192,9 +202,8 @@ export default function NewUser() {
   );
 }
 
-
 const Content = styled.div`
-  width:100%;
+  width: 100%;
   flex: 1;
   padding: 2rem;
 
@@ -209,8 +218,6 @@ const Content = styled.div`
     padding: 2rem;
     width: 100%;
     margin: 0 auto 1rem;
-
-    
 
     h1 {
       color: ${(themes) => themes.theme.thColor};
@@ -316,15 +323,13 @@ const Dropdown = styled.div`
     width: 100%;
 
     div {
-      background: rgb(236,236,236);
+      background: rgb(236, 236, 236);
       padding: 1rem;
 
-
       :hover {
-        background: #596DC4;
+        background: #596dc4;
         color: #fff;
       }
     }
   }
-
-`
+`;

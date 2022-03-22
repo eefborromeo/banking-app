@@ -8,8 +8,8 @@ import Home from "./pages/Home";
 import AllUsers from "./pages/AllUsers";
 import User from "./pages/User";
 import Dashboard from "./pages/Dashboard";
-import useStore from "./store";
-import UserSignUpForm from './pages/UserSignUpForm';
+import { useStore } from "./store";
+import UserSignUpForm from "./pages/UserSignUpForm";
 import UserLoginForm from "./pages/UserLoginForm";
 
 function App() {
