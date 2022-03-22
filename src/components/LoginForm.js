@@ -9,6 +9,7 @@ const admin = {
 
 export default function LoginForm() {
   const logIn = useStore((state) => state.adminLogIn);
+  const userLogOut = useStore((state) => state.userLogOut);
   const [values, setValues] = useState({
     username: "",
     password: "",
@@ -27,6 +28,7 @@ export default function LoginForm() {
     e.preventDefault();
 
     if (JSON.stringify(admin) == JSON.stringify(values)) {
+      userLogOut();
       logIn();
     } else {
       alert("wrong password!");

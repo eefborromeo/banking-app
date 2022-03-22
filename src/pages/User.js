@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStore from "../store";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 export default function NewUser() {
   const users = useStore((state) => state.users);
+  const userFromGlobal = useStore((state) => state.currentUser);
+  const userLogout = useStore((state) => state.userLogOut);
   const addToTransactionsLog = useStore((state) => state.addTransactionsLog);
   const userParams = useParams();
-  const foundUser = users.find((user) => user.id == userParams.id);
+  const location = useLocation();
+
+  const userId = userFromGlobal ? userFromGlobal : userParams.id;
+  const foundUser = users.find((user) => user.id == userId);
   const [values, setValues] = useState({
     withdraw_amount: 0,
     deposit_amount: 0,

@@ -10,7 +10,7 @@ import UserLoginForm from "./UserLoginForm";
 
 export default function Layout() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
-  const isAdminLoggedIn = useStore((state) => state.loggedIn);
+  const isAdminLoggedIn = useStore((state) => state.adminLoggedIn);
   const currentUser = useStore((state) => state.currentUser);
   const userLogOut = useStore((state) => state.userLogOut);
   const { pathname } = useLocation()

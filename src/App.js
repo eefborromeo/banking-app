@@ -28,7 +28,7 @@ function App() {
           <Route path="users/:id" element={<User />} />
         </Route>
         <Route path="user" element={<Layout />}>
-          <Route path=":id" element={<User />} />
+          <Route index element={<User />} />
         </Route>
       </Routes>
     </ThemeProvider>

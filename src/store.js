@@ -54,7 +54,7 @@ const useStore = create(
   persist(
     (set) => ({
       currentTheme: themes["light"],
-      loggedIn: false,
+      adminLoggedIn: false,
       users: initialUsers,
       currentUser: false,
       transactionsLog: [],
@@ -63,8 +63,8 @@ const useStore = create(
         set((state) => ({
           transactionsLog: [...state.transactionsLog, transaction],
         })),
-      adminLogIn: () => set(() => ({ loggedIn: true })),
-      adminLogOut: () => set(() => ({ loggedIn: false })),
+      adminLogIn: () => set(() => ({ adminLoggedIn: true })),
+      adminLogOut: () => set(() => ({ adminLoggedIn: false })),
       userLogIn: (id) => set(() => ({ currentUser: id })),
       userLogOut: () => set(() => ({ currentUser: false })),
       addUser: (newUser) =>
