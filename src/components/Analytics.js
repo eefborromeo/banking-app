@@ -5,8 +5,10 @@ import useStore from "../store";
 export default function Analytics() {
   const users = useStore((state) => state.users);
   const total = (users.reduce((total,currentItem) =>  total = total + currentItem.balance , 0 ));
-  const richestUser = (users.reduce((prevUser, currentUser) => (prevUser.balance < currentUser.balance) ? currentUser : prevUser));
-  const poorestUser = (users.reduce((prevUser, currentUser) => (prevUser.balance > currentUser.balance) ? currentUser : prevUser));
+
+  const sortedUsers = [...users].sort((prevUser, currentUser) => (prevUser.balance - currentUser.balance));
+    console.log(sortedUsers);
+    
   return (
     <Section>
       <div className="analytic ">
@@ -26,15 +28,15 @@ export default function Analytics() {
       <div className="analytic">
         <div className="content">
           <h5>Richest User</h5>
-          <h2 className="bold">{richestUser.balance}</h2>
-          <h3 className="bold">{richestUser.name}</h3>
+          <h2 className="bold">{sortedUsers[sortedUsers.length-1].balance}</h2>
+          <h3 className="bold">{sortedUsers[sortedUsers.length-1].name}</h3>
         </div>
       </div>
       <div className="analytic ">
         <div className="content">
           <h5>Poorest User</h5>
-          <h2 className="bold">{poorestUser.balance}</h2>
-          <h3 className="bold">{poorestUser.name}</h3>
+          <h2 className="bold">{sortedUsers[0].balance}</h2>
+          <h3 className="bold">{sortedUsers[0].name}</h3>
         </div>
       </div>
     </Section>
