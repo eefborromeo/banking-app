@@ -6,17 +6,17 @@ const initialUsers = [
     id: 1,
     name: "spike",
     balance: 100,
-    username: 'user1',
-    password: 'user1',
-    email: 'user1@email.com'
+    username: "user1",
+    password: "user1",
+    email: "user1@email.com",
   },
   {
     id: 2,
     name: "mel",
     balance: 200,
-    username: 'user2',
-    password: 'user2',
-    email: 'user2@email.com'
+    username: "user2",
+    password: "user2",
+    email: "user2@email.com",
   },
 ];
 
@@ -35,7 +35,7 @@ const darkTheme = {
 
 const lightTheme = {
   name: "light",
-  pageBackground: "#fff",
+  sideBarBackground: "#fff",
   textColor: "#222",
   pageBackground: "#ebeaf1",
   boxBackground: "#fff",
@@ -69,9 +69,8 @@ export const useStore = create(
       userLogOut: () => set(() => ({ currentUser: false })),
       addUser: (newUser) =>
         set((state) => ({ users: [...state.users, newUser] })),
-      setUsers: (newUsers) => set(() => ({users: newUsers})), 
+      setUsers: (newUsers) => set(() => ({ users: newUsers })),
     }),
-
     {
       name: "global-store",
     }

@@ -5,7 +5,6 @@ import { useStore } from "../store";
 export default function UserLoginForm() {
   const users = useStore((state) => state.users);
   const logIn = useStore((state) => state.userLogIn);
-  const currentUser = useStore((state) => state.currentUser);
   const [values, setValues] = useState({
     username: "",
     password: "",
