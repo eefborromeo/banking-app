@@ -5,10 +5,12 @@ import styled from "styled-components";
 
 export default function NewUser() {
   const users = useStore((state) => state.users);
+  const loggedInUser = useStore((state) => state.currentUser);
   const setUsers = useStore((state) => state.setUsers);
   const addToTransactionsLog = useStore((state) => state.addTransactionsLog);
   const userParams = useParams();
-  const currentUser = users.find((user) => user.id == userParams.id);
+  const userId = userParams.id ? userParams.id : loggedInUser;
+  const currentUser = users.find((user) => user.id == userId);
   const [values, setValues] = useState({
     withdraw_amount: 0,
     deposit_amount: 0,
