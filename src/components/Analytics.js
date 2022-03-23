@@ -38,7 +38,7 @@ export default function Analytics() {
             {sortedUsers[sortedUsers.length - 1].balance}
           </h2>
           <h3 data-testid="richest-user" className="bold">
-            {sortedUsers[sortedUsers.length - 1].name}
+            {sortedUsers[sortedUsers.length - 1].balance}
           </h3>
         </div>
       </div>
