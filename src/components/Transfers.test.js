@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Analytics from "../components/Analytics";
+import Transfers from "./Transfers";
 import * as Store from "../store";
 
 it("should read users data from the global store", async () => {
@@ -25,7 +25,7 @@ it("should read users data from the global store", async () => {
     })
   );
 
-  render(<Analytics />);
+  render(<Transfers />);
 
   expect(screen.getByTestId("total-money").textContent).toBe("600");
   expect(screen.getByTestId("total-users").textContent).toBe("3");
