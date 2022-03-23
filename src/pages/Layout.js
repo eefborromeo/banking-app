@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { GrClose } from "react-icons/gr";
 import { FiMoon, FiSun } from "react-icons/fi";
 import LoginForm from "../components/LoginForm";
 import useStore from "../store";
@@ -44,7 +45,11 @@ export default function Layout() {
           {
             pathname.includes('admin') &&
           <button onClick={toggleSideBar}>
-            <GiHamburgerMenu />
+            {
+              isSideBarOpen ? 
+              <GiHamburgerMenu /> :
+              <GrClose />
+            }
           </button> 
           }
           <Link to="/admin/">
@@ -184,6 +189,11 @@ const TopBar = styled.div`
     font-size: 20px;
     cursor: pointer;
   }
+
+  button {
+    border: none;
+  }
+
   div {
     display: flex;
     align-items: center;
