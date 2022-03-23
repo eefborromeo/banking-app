@@ -7,7 +7,7 @@ import { FiMoon, FiSun } from "react-icons/fi";
 import LoginForm from "../components/LoginForm";
 import { useStore } from "../store";
 import logo from "../images/logo.png";
-import UserLoginForm from "./UserLoginForm";
+import UserLoginForm from "../components/UserLoginForm";
 
 export default function Layout() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);

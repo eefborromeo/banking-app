@@ -9,8 +9,8 @@ import AllUsers from "./pages/AllUsers";
 import User from "./pages/User";
 import Dashboard from "./pages/Dashboard";
 import { useStore } from "./store";
-import UserSignUpForm from "./pages/UserSignUpForm";
-import UserLoginForm from "./pages/UserLoginForm";
+import UserSignUpForm from "./components/UserSignUpForm";
+import UserLoginForm from "./components/UserLoginForm";
 
 function App() {
   const theme = useStore((state) => state.currentTheme);
@@ -21,12 +21,14 @@ function App() {
         <Route index element={<Home />} />
         <Route path="user/signup" element={<UserSignUpForm />} />
         <Route path="user/login" element={<UserLoginForm />} />
+
         <Route path="admin" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="users" element={<AllUsers />} />
           <Route path="new" element={<NewUser />} />
           <Route path="users/:id" element={<User />} />
         </Route>
+
         <Route path="user" element={<Layout />}>
           <Route index element={<User />} />
         </Route>

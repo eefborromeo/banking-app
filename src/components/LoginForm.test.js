@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
-import LoginForm from "../components/LoginForm.js";
+import LoginForm from "./LoginForm.js";
 import { useStore } from "../store";
 
 it("should login the admin if the credentials are correct", () => {
@@ -15,5 +15,5 @@ it("should login the admin if the credentials are correct", () => {
   fireEvent.change(passwordInput, { target: { value: "admin" } });
   fireEvent.click(screen.getByText("Login"));
 
-  expect(result.current.adminLoggedIn).toBe(false);
+  expect(result.current.adminLoggedIn).toBe(true);
 });
