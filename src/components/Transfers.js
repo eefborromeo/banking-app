@@ -10,19 +10,21 @@ export default function Transfers() {
       <div className="title">
         <h2 className="bold">Your Transfers</h2>
       </div>
-      <div className="transactions">
-        {transactions.map((transaction) => {
+      <div className="transactions" data-testid="transactions-list">
+        {transactions.map((transaction, idx) => {
           return (
-            <div className="transaction">
+            <div className="transaction" key={idx}>
               <div className="transactionTitle">
                 <div className="transactionTitleDetails">
-                  <h3>
+                  <h3 data-testid={`transaction-${idx}`}>
                     From {transaction.sender} to {transaction.reciever}
                   </h3>
                 </div>
               </div>
               <div className="transactionAmount">
-                <span className="bold">{transaction.amount}</span>
+                <span className="bold" data-testid={`amount-${idx}`}>
+                  {transaction.amount}
+                </span>
               </div>
             </div>
           );
