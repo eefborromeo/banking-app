@@ -79,7 +79,6 @@ const FlexContainer = styled.div`
 
     }
   }
-}
 `
 
 const ImageContainer = styled.div`
