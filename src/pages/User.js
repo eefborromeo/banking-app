@@ -9,8 +9,8 @@ export default function NewUser() {
   const setUsers = useStore((state) => state.setUsers);
   const addToTransactionsLog = useStore((state) => state.addTransactionsLog);
   const userParams = useParams();
-  const userId = userParams.id ? userParams.id : loggedInUser;
-  const currentUser = users.find((user) => user.id == userId);
+  const userId = userParams.id ? parseInt(userParams.id) : loggedInUser;
+  const currentUser = users.find((user) => user.id === userId);
   const [values, setValues] = useState({
     withdraw_amount: 0,
     deposit_amount: 0,
@@ -35,7 +35,7 @@ export default function NewUser() {
   const depositSubmitHandler = (e) => {
     e.preventDefault();
     const updatedUsers = users.map((user) => {
-      if (user.id == currentUser.id) {
+      if (user.id === currentUser.id) {
         return {
           ...user,
           balance: user.balance + values.deposit_amount,
@@ -51,7 +51,7 @@ export default function NewUser() {
   const withdrawSubmitHandler = (e) => {
     e.preventDefault();
     const updatedUsers = users.map((user) => {
-      if (user.id == currentUser.id) {
+      if (user.id === currentUser.id) {
         return {
           ...user,
           balance: user.balance - values.withdraw_amount,
@@ -72,7 +72,7 @@ export default function NewUser() {
     }
     const selectedUser = users.find((user) => user.id === selectedId);
     const updatedUsers = users.map((user) => {
-      if (user.id == currentUser.id) {
+      if (user.id === currentUser.id) {
         return {
           ...user,
           balance: user.balance - values.transfer_amount,
@@ -179,6 +179,7 @@ export default function NewUser() {
                         </div>
                       );
                     }
+                    return null;
                   })}
                 </div>
               )}

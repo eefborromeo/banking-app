@@ -27,7 +27,7 @@ export default function LoginForm() {
   const HandleSubmit = (e) => {
     e.preventDefault();
 
-    if (JSON.stringify(admin) == JSON.stringify(values)) {
+    if (JSON.stringify(admin) === JSON.stringify(values)) {
       userLogOut();
       logIn();
     } else {
