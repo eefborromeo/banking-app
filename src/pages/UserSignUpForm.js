@@ -17,7 +17,7 @@ export default function UserSignUpForm() {
 
     const handleChange = (e) => {
         const key = e.target.id;
-        const value = e.target.id;
+        const value = e.target.value;
         setUserInfo({
             ...userInfo,
             [key]: value,
@@ -41,10 +41,10 @@ export default function UserSignUpForm() {
 
         if (nameList.includes(name)) {
             alert(`the name "${name}" is already taken`);
-        } 
-        addUser(user);
-        
-        navigate(`/user/${user.id}`);
+        } else {
+            addUser(user);
+            navigate(`/user`);
+        }
     }
     return (
         <Background>
@@ -53,23 +53,23 @@ export default function UserSignUpForm() {
                 <Form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="name">Name</label>
-                        <input type="text" id="name" onChange={handleChange} />
+                        <input type="text" id="name" value={userInfo.name} onChange={handleChange} />
                     </div>
                     <div>
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={handleChange} />
+                        <input type="email" id="email" value={userInfo.email} onChange={handleChange} />
                     </div>
                     <div>
                         <label htmlFor="username">Username</label>
-                        <input type="text" id="username" onChange={handleChange}/>
+                        <input type="text" id="username" value={userInfo.username} onChange={handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={handleChange}/>
+                        <input type="password" id="password" value={userInfo.password} onChange={handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="balance">Initial Balance</label>
-                        <input type="number" id="balance" onChange={handleChange} />
+                        <input type="number" id="balance" value={userInfo.balance} onChange={handleChange} />
                     </div>
                     <button type="submit">Sign Up</button>
                 </Form>
