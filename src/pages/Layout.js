@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { BiMenu, BiX } from "react-icons/bi";
+import { BiMenu, BiX, BiAddToQueue, BiListUl, BiHome } from "react-icons/bi";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 import LoginForm from "../components/LoginForm";
@@ -67,13 +67,13 @@ export default function Layout() {
           <SideBar isSideBarOpen={isSideBarOpen}>
             <ul>
               <StyledLink activeclassname="active" end to="/admin">
-                Dashboard
+                <BiHome /> Dashboard
               </StyledLink>
               <StyledLink activeclassname="active" end to="/admin/users">
-                Users List
+                <BiListUl /> Users List
               </StyledLink>
               <StyledLink activeclassname="active" to="/admin/new">
-                Create User
+                <BiAddToQueue /> Create User
               </StyledLink>
             </ul>
           </SideBar>
@@ -93,11 +93,17 @@ const StyledLink = styled(NavLink)`
   padding: 1rem;
   text-decoration: none;
   color: ${(themes) => themes.theme.textColor};
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  gap: 10px;
+  
 
   &.active {
     background: #596dc4;
     color: white;
     border-radius: 10px;
+    color: ${(themes) => themes.theme.sunColor};
   }
 `;
 
