@@ -46,11 +46,13 @@ export default function AllUsers() {
   }
 
   function handleUpdate(e, selectedUser) {
+    const key = e.target.id;
+    const value = e.target.value;
     updateUsers = users.map(user => {
       if (user.id === selectedUser.id) {
         return {
           ...user,
-          name: e.target.value
+          [key]: key === 'balance' ? parseInt(value) : value
         }
       } else {
         return user
@@ -90,11 +92,17 @@ export default function AllUsers() {
                   {
                     onEdit === user.id && isEdit ? 
                     <td>
-                      <input onClick={(e) => e.stopPropagation()} onChange={(e) => handleUpdate(e, user)} /> 
+                      <input id="name" onClick={(e) => e.stopPropagation()} onChange={(e) => handleUpdate(e, user)} /> 
                     </td> :
                     <td>{user.name}</td> 
                   }
-                  <td>{user.balance}</td>
+                  {
+                    onEdit === user.id && isEdit ? 
+                    <td>
+                      <input id="balance" onClick={(e) => e.stopPropagation()} onChange={(e) => handleUpdate(e, user)} /> 
+                    </td> :
+                    <td>{user.balance}</td> 
+                  }
                   <td>
                       <Status status={user.status}>{user.status}</Status>
                   </td>
