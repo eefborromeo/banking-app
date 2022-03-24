@@ -9,6 +9,7 @@ const initialUsers = [
     username: "user1",
     password: "user1",
     email: "user1@email.com",
+    status: "APPROVED",
   },
   {
     id: 2,
@@ -17,6 +18,7 @@ const initialUsers = [
     username: "user2",
     password: "user2",
     email: "user2@email.com",
+    status: "APPROVED"
   },
 ];
 
