@@ -5,6 +5,7 @@ import "./App.css"; // css reset
 import NewUser from "./pages/NewUser";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
+import UserDashboard from "./pages/UserDashboard";
 import AllUsers from "./pages/AllUsers";
 import User from "./pages/User";
 import Dashboard from "./pages/Dashboard";
@@ -22,7 +23,7 @@ function App() {
         <Route path="user/signup" element={<UserSignUpForm title="User Sign Up" />} />
         <Route path="user/login" element={<UserLoginForm />} />
 
-        <Route path="admin" element={<Layout />}>
+        <Route path="admin" element={<UserDashboard />}>
           <Route index element={<Dashboard />} />
           <Route path="users" element={<AllUsers />} />
           <Route path="new" element={<NewUser />} />
