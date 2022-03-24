@@ -20,6 +20,7 @@ export default function AllUsers() {
             <th className="bold">Name</th>
             <th className="bold">Balance</th>
             <th className="bold">Status</th>
+            <th className="bold">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -30,11 +31,28 @@ export default function AllUsers() {
                   <td>{user.name}</td>
                   <td>{user.balance}</td>
                   <td>
-                    {
-                      user.status === "APPROVED" && <StatusApproved>{user.status}</StatusApproved> ?
-                      user.status === "PENDING" && <StatusPending>{user.status}</StatusPending> :
-                      user.status === "DENIED" && <StatusDenied>{user.status}</StatusDenied> 
-                    }
+                      <Status status={user.status}>{user.status}</Status>
+                  </td>
+                  <td>
+                      {
+                        user.status === "APPROVED" &&
+                        (
+                          <>
+                            <button>Block</button>
+                            <button>Edit</button>
+                            <button>Delete</button>
+                          </>
+                        )
+                      }
+                      {
+                        user.status === "PENDING" && 
+                        (
+                          <>
+                            <button>Approve</button>
+                            <button>Deny</button>
+                          </>
+                        )
+                      }
                   </td>
                 </tr>
               );
@@ -70,7 +88,7 @@ const Table = styled.table`
       padding: 1rem 0.5rem;
       text-transform: capitalize;
       text-decoration: none;
-      width: 30%;
+      width: 25%;
         button {
           margin-left: 10px;
         }
@@ -88,18 +106,18 @@ const Table = styled.table`
   }
 `;
 
-const StatusApproved = styled.span`
-  background-color: lightgreen;
+const Status = styled.span`
+  background-color: ${props => {
+    if (props.status === "APPROVED") {
+      return "lightgreen"
+    } else if (props.status === "PENDING") {
+      return "orange"
+    } else if (props.status === "DENIED") {
+      return "red"
+    } else if (props.status === "BLOCKED") {
+      return "lightgray"
+    }
+  }};
   padding: 10px 30px;
   border-radius: 20px;
-`
-const StatusPending = styled.span`
-  background-color: orange;
-  padding: 10px 30px;
-  border-radius: 20px;
-`
-const StatusDenied = styled.span`
-  background-color: red;
-  padding: 10px 30px;
-  border-radius: 20px;
-`
+`;
