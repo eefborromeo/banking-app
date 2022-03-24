@@ -33,7 +33,7 @@ export default function AllUsers() {
     updateStatus(user, message)
     setUsers(updateUsers);
   }
-  
+
   return (
     <Div className="box">
       <h1 className="bold">All Users</h1>
@@ -61,7 +61,7 @@ export default function AllUsers() {
                         user.status === "APPROVED" &&
                         (
                           <>
-                            <button>Block</button>
+                            <button onClick={(e) => handleStatus(e,user, "BLOCKED")}>Block</button>
                             <button>Edit</button>
                             <button>Delete</button>
                           </>
