@@ -1,14 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useStore } from "../store";
 
 export default function AllUsers() {
   const users = useStore((state) => state.users);
+  const setUsers = useStore((state) => state.setUsers);
   const navigate = useNavigate();
 
   function handleClick(id) {
     navigate(`/admin/users/${id}`);
+  }
+
+  let updateUsers;
+
+  function updateStatus(selectedUser, message) {
+    updateUsers = users.map(user => {
+     if (user.id === selectedUser.id) {
+        return {
+          ...user,
+          status: message
+        }
+      } else {
+          return user
+      }
+    });
+    return updateUsers;
+  }
+
+  function handleApproval(e, user) {
+    e.stopPropagation();
+    updateStatus(user, "APPROVED")
+    setUsers(updateUsers);
+  }
+
+  function handleDeny(e, user) {
+    e.stopPropagation();
+    updateStatus(user, "DENIED")
+    setUsers(updateUsers);
   }
 
   return (
@@ -48,8 +77,8 @@ export default function AllUsers() {
                         user.status === "PENDING" && 
                         (
                           <>
-                            <button>Approve</button>
-                            <button>Deny</button>
+                            <button onClick={(e) => handleApproval(e,user)}>Approve</button>
+                            <button onClick={(e) => handleDeny(e,user)}>Deny</button>
                           </>
                         )
                       }
@@ -118,6 +147,7 @@ const Status = styled.span`
       return "lightgray"
     }
   }};
+  font-weight: bold;
   padding: 10px 30px;
   border-radius: 20px;
 `;
