@@ -30,9 +30,11 @@ export default function AllUsers() {
                   <td>{user.name}</td>
                   <td>{user.balance}</td>
                   <td>
-                    <StatusPending>Pending</StatusPending>
-                    <button>Approve</button>
-                    <button>Deny</button>
+                    {
+                      user.status === "APPROVED" && <StatusApproved>{user.status}</StatusApproved> ?
+                      user.status === "PENDING" && <StatusPending>{user.status}</StatusPending> :
+                      user.status === "DENIED" && <StatusDenied>{user.status}</StatusDenied> 
+                    }
                   </td>
                 </tr>
               );
