@@ -35,6 +35,7 @@ export default function UserSignUpForm() {
       username,
       password,
       balance: parseInt(balance),
+      status: "PENDING",
     };
 
     const nameList = users.map((user) => user.name);
