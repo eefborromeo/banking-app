@@ -28,18 +28,12 @@ export default function AllUsers() {
     return updateUsers;
   }
 
-  function handleApproval(e, user) {
+  function handleStatus(e, user, message) {
     e.stopPropagation();
-    updateStatus(user, "APPROVED")
+    updateStatus(user, message)
     setUsers(updateUsers);
   }
-
-  function handleDeny(e, user) {
-    e.stopPropagation();
-    updateStatus(user, "DENIED")
-    setUsers(updateUsers);
-  }
-
+  
   return (
     <Div className="box">
       <h1 className="bold">All Users</h1>
@@ -77,8 +71,8 @@ export default function AllUsers() {
                         user.status === "PENDING" && 
                         (
                           <>
-                            <button onClick={(e) => handleApproval(e,user)}>Approve</button>
-                            <button onClick={(e) => handleDeny(e,user)}>Deny</button>
+                            <button onClick={(e) => handleStatus(e,user, "APPROVED")}>Approve</button>
+                            <button onClick={(e) => handleStatus(e,user, "DENIED")}>Deny</button>
                           </>
                         )
                       }
