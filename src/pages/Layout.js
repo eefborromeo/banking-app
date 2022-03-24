@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { GrClose } from "react-icons/gr";
+import { BiMenu, BiX } from "react-icons/bi";
 import { FiMoon, FiSun } from "react-icons/fi";
+import { MdLogout } from "react-icons/md";
 import LoginForm from "../components/LoginForm";
 import { useStore } from "../store";
 import logo from "../images/logo.png";
@@ -42,8 +42,8 @@ export default function Layout() {
       <TopBar>
         <div>
           {pathname.includes("admin") && (
-            <button onClick={toggleSideBar}>
-              {isSideBarOpen ? <GiHamburgerMenu /> : <GrClose />}
+            <button className="modeOne" onClick={toggleSideBar}>
+              {isSideBarOpen ? <BiMenu /> : <BiX />}
             </button>
           )}
           <Link to="/admin/">
@@ -57,6 +57,9 @@ export default function Layout() {
           {!pathname.includes("admin") && (
             <button onClick={userLogOut}>Logout</button>
           )}
+          <button className="mode" onClick={logOut}>
+            <MdLogout />
+          </button>
         </div>
       </TopBar>
       <StyledLayout>
@@ -73,7 +76,6 @@ export default function Layout() {
                 Create User
               </StyledLink>
             </ul>
-            <button onClick={logOut}>Logout</button>
           </SideBar>
         ) : null}
         <OutletLayout>
@@ -125,23 +127,6 @@ const SideBar = styled.div`
     display: flex;
     flex-direction: column;
   }
-
-  button {
-    display: block;
-    border: #eee 2px solid;
-    color: #eee;
-    margin: 0 auto;
-    font-size: 1.5rem;
-    padding: 0.5rem 0.8rem;
-    background: #596dc4;
-    border-radius: 1rem;
-    cursor: pointer;
-
-    &:hover {
-      background: #eee;
-      color: #596dc4;
-    }
-  }
 `;
 
 const StyledLayout = styled.div`
@@ -172,17 +157,35 @@ const TopBar = styled.div`
   padding: 2rem;
   display: flex;
   justify-content: space-between;
+  height: 9%;
 
   .mode {
     width: 40px;
     height: 40px;
-    padding-top: 2px;
+    text-align: center;
+    line-height: 0%;
+    vertical-align: middle;
     border: none;
     border-radius: 100%;
     background: ${(themes) => themes.theme.sunBgColor};
     color: ${(themes) => themes.theme.sunColor};
     font-size: 20px;
     cursor: pointer;
+  }
+  .modeOne {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 0%;
+    vertical-align: middle;
+    border: none;
+    color: ${(themes) => themes.theme.sunColor};
+    font-size: 25px;
+    cursor: pointer;
+  }
+
+  img {
+    height: 25px;
   }
 
   button {
