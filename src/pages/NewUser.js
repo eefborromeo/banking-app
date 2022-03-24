@@ -65,6 +65,7 @@ export default function User() {
             value={balance}
             onChange={balanceInputHandler}
             type="number"
+            min="0"
           />
         </div>
         <button type="submit">Submit</button>

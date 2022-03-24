@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Analytics from "../components/Analytics";
 import Transfers from "../components/Transfers";
 import Profile from "../components/Profile";
+import Background from "../images/adminbg.png";
 
 export default function Dashboard() {
   return (
@@ -35,7 +36,9 @@ const Section = styled.section`
       height: 20%;
       border-radius: 1rem;
       gap: 1rem;
-      background: ${(themes) => themes.theme.boxBackground};
+      background-image: url(${Background});
+      background-repeat: no-repeat;
+      background-size: cover;
     }
 
     .rowTwo {
