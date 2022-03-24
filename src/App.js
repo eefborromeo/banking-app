@@ -27,6 +27,7 @@ function App() {
           <Route path="users" element={<AllUsers />} />
           <Route path="new" element={<NewUser />} />
           <Route path="users/:id" element={<User />} />
+          <Route path="edit/user/:id" element={<UserSignUpForm />} />
         </Route>
 
         <Route path="user" element={<Layout />}>

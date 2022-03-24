@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useStore } from "../store";
 
 export default function UserSignUpForm() {
   const navigate = useNavigate();
+  const userParams = useParams();
   const users = useStore((state) => state.users);
+  const editUser = users.find(user => user.id === parseInt(userParams.id));
   const addUser = useStore((state) => state.addUser);
+  const setUsers = useStore((state) => state.setUsers)
+  const [isEditing, setIsEditing] = useState(false)
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -14,6 +18,19 @@ export default function UserSignUpForm() {
     password: "",
     balance: 0,
   });
+
+  useEffect(() => {
+    if (editUser) {
+      setIsEditing(true)
+      setUserInfo({
+        name: editUser.name,
+        email: editUser.email,
+        username: editUser.username,
+        password: editUser.password,
+        balance: editUser.balance
+      })
+    }
+  }, [userParams, editUser])
 
   const handleChange = (e) => {
     const key = e.target.id;
@@ -28,7 +45,7 @@ export default function UserSignUpForm() {
     e.preventDefault();
     const { name, email, username, password, balance } = userInfo;
 
-    const user = {
+    const newUser = {
       id: users.length + 1,
       name,
       email,
@@ -40,17 +57,34 @@ export default function UserSignUpForm() {
 
     const nameList = users.map((user) => user.name);
 
-    if (nameList.includes(name)) {
+    if (nameList.includes(name) && !isEditing) {
       alert(`the name "${name}" is already taken`);
-    } else {
-      addUser(user);
+    } else if (!isEditing) {
+      addUser(newUser);
       navigate(`/user`);
+    } else if (isEditing) {
+      const newUsers = users.map(user => { 
+        if (user.id === editUser.id) {
+          return {
+                ...user, 
+                name,
+                email,
+                username,
+                password,
+                balance
+              }
+        } else {
+          return user
+        }
+      })
+      setUsers(newUsers)
+      navigate(`/admin/users`)
     }
   };
   return (
     <Background>
       <Container>
-        <h1>Sign Up Form</h1>
+        {!isEditing ? <h1>Sign Up Form</h1> : <h1>Update User</h1>}
         <Form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name">Name</label>
@@ -97,7 +131,11 @@ export default function UserSignUpForm() {
               onChange={handleChange}
             />
           </div>
-          <button type="submit">Sign Up</button>
+          {
+            isEditing ?
+              <button type="submit">Save</button> :
+              <button type="submit">Sign Up</button>
+          }
         </Form>
       </Container>
     </Background>
