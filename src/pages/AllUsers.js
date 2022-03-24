@@ -6,8 +6,6 @@ import { useStore } from "../store";
 export default function AllUsers() {
   const users = useStore((state) => state.users);
   const setUsers = useStore((state) => state.setUsers);
-  const [isEdit, setIsEdit] = useState(false);
-  const [onEdit, setOnEdit] = useState(0);
   const navigate = useNavigate();
 
   function handleClick(id, status) {
@@ -39,31 +37,9 @@ export default function AllUsers() {
     setUsers(updateUsers);
   }
 
-  function handleEdit(e, user) {
+  function handleEdit(e, id) {
     e.stopPropagation();
-    setOnEdit(user)
-    setIsEdit(true);
-  }
-
-  function handleUpdate(e, selectedUser) {
-    const key = e.target.id;
-    const value = e.target.value;
-    updateUsers = users.map(user => {
-      if (user.id === selectedUser.id) {
-        return {
-          ...user,
-          [key]: key === 'balance' ? parseInt(value) : value
-        }
-      } else {
-        return user
-      }
-    });
-  }
-
-  function handleSave(e) {
-    e.stopPropagation();
-    setUsers(updateUsers);
-    setIsEdit(false)
+    navigate(`/admin/edit/user/${id}`)
   }
 
   function handleDelete(e, deleteUser) {
@@ -89,28 +65,14 @@ export default function AllUsers() {
             users.map((user) => {
               return (
                 <tr onClick={() => handleClick(user.id, user.status)} key={user.id}>
-                  {
-                    onEdit === user.id && isEdit ? 
-                    <td>
-                      <input id="name" onClick={(e) => e.stopPropagation()} onChange={(e) => handleUpdate(e, user)} /> 
-                    </td> :
                     <td>{user.name}</td> 
-                  }
-                  {
-                    onEdit === user.id && isEdit ? 
-                    <td>
-                      <input id="balance" onClick={(e) => e.stopPropagation()} onChange={(e) => handleUpdate(e, user)} /> 
-                    </td> :
                     <td>{user.balance}</td> 
-                  }
                   <td>
                       <Status status={user.status}>{user.status}</Status>
                   </td>
                   <td>
                       {
-                        user.status === "APPROVED" && onEdit && 
-                          isEdit ? 
-                            <button onClick={(e) => handleSave(e, user)}>Save</button> :
+                        user.status === "APPROVED" &&
                             <>
                               <button onClick={(e) => handleStatus(e,user, "BLOCKED")}>Block</button>
                               <button onClick={(e) => handleEdit(e, user.id)}>Edit</button>
