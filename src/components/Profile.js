@@ -16,8 +16,9 @@ export default function Profile() {
 const Section = styled.div`
 padding: 1rem 2rem 3rem 2rem;
 border-radius: 1rem;
-color: ${(themes) => themes.theme.textColor};
+color: ${(themes) => themes.theme.thColor};
 font-family: "Bebas Neue", cursive;
+
 
 .greeting {
   text-align: left;
@@ -30,6 +31,7 @@ font-family: "Bebas Neue", cursive;
   }
 }
 
-`;
+`
+;
 
 
