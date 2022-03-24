@@ -8,7 +8,10 @@ export default function AllUsers() {
   const setUsers = useStore((state) => state.setUsers);
   const navigate = useNavigate();
 
-  function handleClick(id) {
+  function handleClick(id, status) {
+    if (status === "BLOCKED" || status === "DENIED") {
+      return;
+    }
     navigate(`/admin/users/${id}`);
   }
 
@@ -30,8 +33,14 @@ export default function AllUsers() {
 
   function handleStatus(e, user, message) {
     e.stopPropagation();
-    updateStatus(user, message)
+    updateStatus(user, message);
     setUsers(updateUsers);
+  }
+
+  function handleDelete(e, deleteUser) {
+    e.stopPropagation();
+    const updateUsers = users.filter(user => user.id !== deleteUser.id)
+    setUsers(updateUsers)
   }
 
   return (
@@ -50,7 +59,7 @@ export default function AllUsers() {
           {users &&
             users.map((user) => {
               return (
-                <tr onClick={() => handleClick(user.id)} key={user.id}>
+                <tr onClick={() => handleClick(user.id, user.status)} key={user.id}>
                   <td>{user.name}</td>
                   <td>{user.balance}</td>
                   <td>
@@ -63,7 +72,7 @@ export default function AllUsers() {
                           <>
                             <button onClick={(e) => handleStatus(e,user, "BLOCKED")}>Block</button>
                             <button>Edit</button>
-                            <button>Delete</button>
+                            <button onClick={(e) => handleDelete(e, user)}>Delete</button>
                           </>
                         )
                       }
