@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { BiBlock, BiEdit, BiTrash, BiCheckCircle, BiXCircle } from "react-icons/bi";
 import { useStore } from "../store";
 
 export default function AllUsers() {
@@ -74,19 +75,27 @@ export default function AllUsers() {
                       {
                         user.status === "APPROVED" &&
                             <>
-                              <button onClick={(e) => handleStatus(e,user, "BLOCKED")}>Block</button>
-                              <button onClick={(e) => handleEdit(e, user.id)}>Edit</button>
-                              <button onClick={(e) => handleDelete(e, user)}>Delete</button>
+                              <BiBlock onClick={(e) => handleStatus(e,user, "BLOCKED")} />
+                              <BiEdit onClick={(e) => handleEdit(e, user.id)} />
+                              <BiTrash onClick={(e) => handleDelete(e, user)} />
                             </>
                       }
                       {
                         user.status === "PENDING" && 
                         (
                           <>
-                            <button onClick={(e) => handleStatus(e,user, "APPROVED")}>Approve</button>
-                            <button onClick={(e) => handleStatus(e,user, "DENIED")}>Deny</button>
+                            <BiCheckCircle onClick={(e) => handleStatus(e,user, "APPROVED")} />
+                            <BiXCircle onClick={(e) => handleStatus(e,user, "DENIED")} />
                           </>
                         )
+                      }
+                      {
+                        user.status === "BLOCKED" &&
+                          (
+                            <>
+                              <button onClick={(e) => handleStatus(e,user, "APPROVED")}>Unblock</button>
+                            </>
+                          )
                       }
                   </td>
                 </tr>
@@ -124,9 +133,19 @@ const Table = styled.table`
       text-transform: capitalize;
       text-decoration: none;
       width: 25%;
-        button {
-          margin-left: 10px;
-        }
+      svg {
+        width: 2em;
+        height: 1.5em;
+        margin-left: 10px;
+        color: rgba(117, 138, 229, 1);
+      }
+      button {
+        padding: 8px 12px;
+        border: none;
+        background: rgba(117, 138, 229, 1);
+        color: #fff;
+        border-radius: 5px;
+      }
     }
   }
 
@@ -138,6 +157,13 @@ const Table = styled.table`
     background-color: rgba(117, 138, 229, 1);
     color: white;
     cursor: pointer;
+    td svg {
+      color: #fff;
+    }
+    button {  
+        background: #fff;
+        color: rgba(117, 138, 229, 1);
+      }
   }
 `;
 
