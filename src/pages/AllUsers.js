@@ -19,6 +19,7 @@ export default function AllUsers() {
           <tr>
             <th className="bold">Name</th>
             <th className="bold">Balance</th>
+            <th className="bold">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -28,6 +29,11 @@ export default function AllUsers() {
                 <tr onClick={() => handleClick(user.id)} key={user.id}>
                   <td>{user.name}</td>
                   <td>{user.balance}</td>
+                  <td>
+                    <StatusPending>Pending</StatusPending>
+                    <button>Approve</button>
+                    <button>Deny</button>
+                  </td>
                 </tr>
               );
             })}
@@ -62,6 +68,10 @@ const Table = styled.table`
       padding: 1rem 0.5rem;
       text-transform: capitalize;
       text-decoration: none;
+      width: 30%;
+        button {
+          margin-left: 10px;
+        }
     }
   }
 
@@ -75,3 +85,19 @@ const Table = styled.table`
     cursor: pointer;
   }
 `;
+
+const StatusApproved = styled.span`
+  background-color: lightgreen;
+  padding: 10px 30px;
+  border-radius: 20px;
+`
+const StatusPending = styled.span`
+  background-color: orange;
+  padding: 10px 30px;
+  border-radius: 20px;
+`
+const StatusDenied = styled.span`
+  background-color: red;
+  padding: 10px 30px;
+  border-radius: 20px;
+`
