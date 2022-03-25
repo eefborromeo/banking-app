@@ -10,7 +10,7 @@ export default function AllUsers() {
   const navigate = useNavigate();
 
   function handleClick(id, status) {
-    if (status === "BLOCKED" || status === "DENIED") {
+    if (status === "BLOCKED" || status === "DENIED" || status === "PENDING") {
       return;
     }
     navigate(`/admin/users/${id}`);
@@ -45,9 +45,17 @@ export default function AllUsers() {
 
   function handleDelete(e, deleteUser) {
     e.stopPropagation();
-    const updateUsers = users.filter(user => user.id !== deleteUser.id)
+    const updateUsers = users.map(user => {
+      if (user.id === deleteUser.id) {
+        return { ...user, deleted: true}
+      } else {
+        return user
+      }
+    })
     setUsers(updateUsers)
   }
+
+  const filteredUsers = users.filter(user => user.deleted === undefined);
 
   return (
     <Div className="box">
@@ -62,8 +70,8 @@ export default function AllUsers() {
           </tr>
         </thead>
         <tbody>
-          {users &&
-            users.map((user) => {
+          {filteredUsers &&
+            filteredUsers.map((user) => {
               return (
                 <tr onClick={() => handleClick(user.id, user.status)} key={user.id}>
                     <td>{user.name}</td> 
