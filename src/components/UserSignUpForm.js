@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useStore } from "../store";
 
-export default function UserSignUpForm() {
+export default function UserSignUpForm({title}) {
   const navigate = useNavigate();
   const userParams = useParams();
   const users = useStore((state) => state.users);
@@ -63,7 +63,7 @@ export default function UserSignUpForm() {
       addUser(newUser);
       navigate(`/user`);
     } else if (isEditing) {
-      const newUsers = users.map(user => { 
+      const editedUser = users.map(user => { 
         if (user.id === editUser.id) {
           return {
                 ...user, 
@@ -71,20 +71,20 @@ export default function UserSignUpForm() {
                 email,
                 username,
                 password,
-                balance
+                balance: parseInt(balance)
               }
         } else {
           return user
         }
       })
-      setUsers(newUsers)
+      setUsers(editedUser)
       navigate(`/admin/users`)
     }
   };
   return (
     <Background>
       <Container>
-        {!isEditing ? <h1>Sign Up Form</h1> : <h1>Update User</h1>}
+        <h1>{title}</h1>
         <Form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name">Name</label>
@@ -131,11 +131,7 @@ export default function UserSignUpForm() {
               onChange={handleChange}
             />
           </div>
-          {
-            isEditing ?
-              <button type="submit">Save</button> :
-              <button type="submit">Sign Up</button>
-          }
+          <button type="submit">Submit</button>
         </Form>
       </Container>
     </Background>
