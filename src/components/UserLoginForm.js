@@ -34,7 +34,13 @@ export default function UserLoginForm() {
 
     if (matchedUser) {
       const user = users.find((user) => user.username === values.username);
-      logIn(user.id);
+      if (user.status === "APPROVED") {
+        logIn(user.id);
+      } else if (user.status === "PENDING") {
+        alert('Your account is pending and waiting for approval.')
+      } else if (user.status === "BLOCKED" || user.status === "DENIED") {
+        alert('Your account has been blocked or denied. Please contact admin.')
+      }
     } else {
       alert("User not found");
     }
