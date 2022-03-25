@@ -46,9 +46,7 @@ export default function Layout() {
               {isSideBarOpen ? <BiMenu /> : <BiX />}
             </button>
           )}
-          <Link to="/admin/">
             <img src={logo} alt="Cashpoint Logo" />
-          </Link>
         </div>
         <div>
           <button className="mode" onClick={toggleTheme}>

@@ -91,7 +91,7 @@ const Form = styled.form`
     width: 100%;
     box-sizing: border-box;
     background: ${(themes) => themes.theme.inputBackground};
-    color: ${(themes) => themes.theme.textColor};
+    color: ${(themes) => themes.theme.thColor};
   }
 
   input:nth-child(2) {
