@@ -49,81 +49,16 @@ export default function UserApp() {
         </div>
       </TopBar>
       <Dashboard>
-        <UserDashboard />
+        {/* <UserDashboard /> */}
       </Dashboard>
     </ParentDiv>
   );
 }
 const ParentDiv = styled.div`
   height: 100%;
-`;
-
-const StyledLink = styled(NavLink)`
-  padding: 1rem;
-  text-decoration: none;
-  color: ${(themes) => themes.theme.textColor};
-  display: flex;
-  flex-direction: row;
-  font-size: 20px;
-  gap: 10px;
-
-  &.active {
-    background: #596dc4;
-    color: white;
-    border-radius: 10px;
-    color: ${(themes) => themes.theme.sunColor};
-  }
-`;
-
-const SideBar = styled.div`
-  background: ${(themes) => themes.theme.sideBarBackground};
-  width: 20vw;
-  padding: 2rem;
-  font-weight: bold;
-  font-family: "Bebas Neue", cursive;
-  letter-spacing: 0.1rem;
-  font-size: 2rem;
-  position: ${(props) => (props.isSideBarOpen ? "absolute" : "static")};
-  left: -100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  div {
-    color: #596dc4;
-    margin-bottom: 2rem;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-    font-size: 1rem;
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
-const StyledLayout = styled.div`
-  display: flex;
-  height: 100%;
-`;
-
-const OutletLayout = styled.div`
-  flex: 1;
-  padding: 2rem;
-  background: ${(themes) => themes.theme.pageBackground};
-
-  .box {
-    background: ${(themes) => themes.theme.boxBackground};
-    border-radius: 10px;
-    padding: 1rem 2rem;
-    width: 80%;
-    margin: auto;
-  }
-
-  h1 {
-    color: #596dc4;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 `;
 
 const TopBar = styled.div`
@@ -179,4 +114,6 @@ const TopBar = styled.div`
   }
 `;
 
-const Dashboard = styled.div` `;
+const Dashboard = styled.div`
+width: 100%;
+`;
