@@ -61,7 +61,7 @@ export default function UserSignUpForm({title}) {
       alert(`the name "${name}" is already taken`);
     } else if (!isEditing) {
       addUser(newUser);
-      navigate(`/user`);
+      navigate(`/user/login`);
     } else if (isEditing) {
       const editedUser = users.map(user => { 
         if (user.id === editUser.id) {

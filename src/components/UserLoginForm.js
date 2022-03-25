@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useStore } from "../store";
+import { useNavigate } from "react-router-dom";
 
 export default function UserLoginForm() {
   const users = useStore((state) => state.users);
@@ -9,6 +10,8 @@ export default function UserLoginForm() {
     username: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const key = e.target.name;
@@ -36,6 +39,7 @@ export default function UserLoginForm() {
       const user = users.find((user) => user.username === values.username);
       if (user.status === "APPROVED") {
         logIn(user.id);
+        navigate("/user");
       } else if (user.status === "PENDING") {
         alert('Your account is pending and waiting for approval.')
       } else if (user.status === "BLOCKED" || user.status === "DENIED") {
