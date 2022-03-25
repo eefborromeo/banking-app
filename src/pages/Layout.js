@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { BiMenu, BiX, BiAddToQueue, BiListUl, BiHome } from "react-icons/bi";
 import { FiMoon, FiSun } from "react-icons/fi";

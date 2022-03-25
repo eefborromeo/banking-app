@@ -187,8 +187,8 @@ export default function NewUser() {
               </button>
             </form>
             <div>
-              {currentUser.expenseItems.map(item => {
-                return <li>{item.name} -{item.value}</li>
+              {currentUser.expenseItems.map((item,idx) => {
+                return <li key={idx}>{item.name} -{item.value}</li>
               })} 
             </div>
           </div>
