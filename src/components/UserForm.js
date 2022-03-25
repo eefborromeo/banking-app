@@ -3,14 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useStore } from "../store";
 
-export default function UserSignUpForm({title}) {
+export default function UserSignUpForm({ title, isAdmin }) {
   const navigate = useNavigate();
   const userParams = useParams();
   const users = useStore((state) => state.users);
-  const editUser = users.find(user => user.id === parseInt(userParams.id));
+  const editUser = users.find((user) => user.id === parseInt(userParams.id));
   const addUser = useStore((state) => state.addUser);
-  const setUsers = useStore((state) => state.setUsers)
-  const [isEditing, setIsEditing] = useState(false)
+  const setUsers = useStore((state) => state.setUsers);
+  const [isEditing, setIsEditing] = useState(false);
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -21,16 +21,16 @@ export default function UserSignUpForm({title}) {
 
   useEffect(() => {
     if (editUser) {
-      setIsEditing(true)
+      setIsEditing(true);
       setUserInfo({
         name: editUser.name,
         email: editUser.email,
         username: editUser.username,
         password: editUser.password,
-        balance: editUser.balance
-      })
+        balance: editUser.balance,
+      });
     }
-  }, [userParams, editUser])
+  }, [userParams, editUser]);
 
   const handleChange = (e) => {
     const key = e.target.id;
@@ -59,26 +59,29 @@ export default function UserSignUpForm({title}) {
 
     if (nameList.includes(name) && !isEditing) {
       alert(`the name "${name}" is already taken`);
-    } else if (!isEditing) {
+    } else if (!isEditing && !isAdmin) {
       addUser(newUser);
       navigate(`/user`);
+    } else if (!isEditing && isAdmin) {
+      addUser({ ...newUser, status: "APPROVED" });
+      navigate(`/admin/users`);
     } else if (isEditing) {
-      const editedUser = users.map(user => { 
+      const editedUser = users.map((user) => {
         if (user.id === editUser.id) {
           return {
-                ...user, 
-                name,
-                email,
-                username,
-                password,
-                balance: parseInt(balance)
-              }
+            ...user,
+            name,
+            email,
+            username,
+            password,
+            balance: parseInt(balance),
+          };
         } else {
-          return user
+          return user;
         }
-      })
-      setUsers(editedUser)
-      navigate(`/admin/users`)
+      });
+      setUsers(editedUser);
+      navigate(`/admin/users`);
     }
   };
   return (
