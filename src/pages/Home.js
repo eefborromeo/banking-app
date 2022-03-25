@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { MdSendToMobile } from "react-icons/md"
+import { BiWallet } from "react-icons/bi"
 import styled from "styled-components"
 import logo from "../images/logo.png"
 import phone from "../images/phone.png"
@@ -18,15 +20,21 @@ export default function Home() {
       </NavContainer>
       <FlexContainer>
         <div>
-          <h1>Coming Soon!</h1>
-          <p>Our team is actively working on this project. See you around!</p>
-          <div>
-            <p>Sign up to get early access!</p>
-            <form>
-              <input type="text"/>
-              <button>Add me!</button>
-            </form>
-          </div>
+          <h1>Banking & Budgeting Made Simple</h1>
+          <p>Banking has never been easier! Say goodby to endless paperwork and branch visits.</p>
+          <p>Open your account today!</p>
+          <BoxContainer>
+            <Box>
+              <MdSendToMobile />
+              <h2>Make cashless payments</h2>
+              <p>Fast, secure, easy payments and transfers </p>
+            </Box>
+            <Box>
+              <BiWallet />
+              <h2>Save even when you spend</h2>
+              <p>We are commited to helping you find solutions for your financial needs and goals</p>
+            </Box>
+          </BoxContainer>
         </div>
         <ImageContainer>
           <img src={phone} alt="Cashpoint App" />
@@ -80,19 +88,22 @@ const FlexContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 90%;
-  margin-left: auto;
+  margin: auto;
+  line-height: 1.5;
   > div {
     color: #fff;
+    flex: 1;
     div {
       margin-top: 2rem;
     }
   }
   h1 {
-    font-size: 70px;
+    font-size: 50px;
     margin-bottom: 1rem;
+    font-weight: bold;
   }
   p {
-    font-size: 30px;
+    font-size: 25px;
     margin-bottom: 1rem;
   }
 
@@ -137,13 +148,52 @@ const FlexContainer = styled.div`
 
 const ImageContainer = styled.div`
   width: 80%;
+  flex: 1;
   img {
-    width: 85%;
+    width: 100%;
     height: 85vh;
     object-fit: contain;
+    display: block;
+    margin: auto;
   }
   @media (max-width: 768px) {
     width: 100%;
     order: -1;
+  }
+`
+
+const BoxContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`
+
+const Box = styled.div`
+  flex: 50%;
+  margin: 0 10px;
+  background-color: #415195;
+  padding: 0px 30px 30px;
+  border-radius: 10px;
+  position: relative;
+  svg {
+    margin-bottom: 10px;
+    background-color: #6985ff;
+    width: 80px;
+    height: 80px;
+    padding: 20px;
+    border-radius: 100%;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+
+  }
+  h2 {
+    margin-top: 60px;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  p {
+    font-size: 18px;
+    padding-top: 10px;
   }
 `
