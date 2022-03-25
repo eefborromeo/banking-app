@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components"
 import logo from "../images/logo.png"
 import phone from "../images/phone.png"
@@ -11,8 +12,8 @@ export default function Home() {
           <img src={logo} alt="Cashpoint Logo"/>
         </LogoContainer>
         <div>
-          <button>Sign Up</button>
-          <button>Login</button>
+          <Link to="user/signup"><button>Sign Up</button></Link>
+          <Link to="user/login"> <button>Login</button></Link>
         </div>
       </NavContainer>
       <FlexContainer>
@@ -54,6 +55,10 @@ const NavContainer = styled.div`
     color: #fff;
     font-weight: 600;
     margin-left: 20px;
+    cursor: pointer;
+    &:hover {
+      filter: brightness(200%)
+    }
   }
 `
 
