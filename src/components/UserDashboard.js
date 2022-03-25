@@ -238,6 +238,7 @@ const Section = styled.section`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    color: ${(themes) => themes.theme.textColor};
 
     .box {
       background-color: ${(themes) => themes.theme.boxBackground};
