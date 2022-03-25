@@ -20,7 +20,10 @@ function App() {
     <ThemeProvider className="App" theme={theme}>
       <Routes>
         <Route index element={<Home />} />
-        <Route path="user/signup" element={<UserSignUpForm title="User Sign Up" />} />
+        <Route
+          path="user/signup"
+          element={<UserSignUpForm title="User Sign Up" />}
+        />
         <Route path="user/login" element={<UserLoginForm />} />
 
         <Route path="admin" element={<Layout />}>
@@ -28,7 +31,10 @@ function App() {
           <Route path="users" element={<AllUsers />} />
           <Route path="new" element={<NewUser />} />
           <Route path="users/:id" element={<User />} />
-          <Route path="edit/user/:id" element={<UserSignUpForm title="Update User" />} />
+          <Route
+            path="edit/user/:id"
+            element={<UserSignUpForm title="Update User" />}
+          />
         </Route>
 
         <Route path="user" element={<Layout />}>
