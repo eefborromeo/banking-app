@@ -37,16 +37,18 @@ export default function TransactionForm({ currentUser, formType }) {
 
   return (
     <div className="box">
-      <p className="bold">{formType.toUpperCase()}</p>
+      <p className="bold">{formType.toUpperCase()} BALANCE</p>
       <form onSubmit={transactionSubmitHandler}>
         <input
-          id="withdraw_amount"
+          data-testid="transaction-input"
           type="number"
           value={transactionValue}
           onChange={changeHandler}
           min="0"
         />
-        <button>{formType.toUpperCase()}</button>
+        <button data-testid="transaction-button">
+          {formType.toUpperCase()}
+        </button>
       </form>
     </div>
   );
