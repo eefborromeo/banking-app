@@ -55,11 +55,13 @@ export default function Layout() {
             {theme === "light" ? <FiMoon /> : <FiSun />}
           </button>
           {!pathname.includes("admin") && (
-            <button onClick={userLogOut}>Logout</button>
-          )}
-          <button className="mode" onClick={logOut}>
-            <MdLogout />
-          </button>
+            <button onClick={userLogOut} className="mode"><MdLogout /></button>
+          )
+          }
+          {pathname.includes("admin") && (
+            <button onClick={logOut} className="mode"><MdLogout /></button>
+          )
+          }
         </div>
       </TopBar>
       <StyledLayout>

@@ -5,7 +5,7 @@ import "./App.css"; // css reset
 import NewUser from "./pages/NewUser";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
-import UserApp from "./pages/UserApp";
+import UserDashboard from "./components/UserDashboard";
 import AllUsers from "./pages/AllUsers";
 import User from "./pages/User";
 import Dashboard from "./pages/Dashboard";
@@ -31,8 +31,8 @@ function App() {
           <Route path="edit/user/:id" element={<UserSignUpForm title="Update User" />} />
         </Route>
 
-        <Route path="user" element={<UserApp />}>
-          <Route index element={<User />} />
+        <Route path="user" element={<Layout />}>
+          <Route index element={<UserDashboard />} />
         </Route>
       </Routes>
     </ThemeProvider>
