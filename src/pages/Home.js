@@ -3,6 +3,32 @@ import styled from "styled-components"
 import logo from "../images/logo.png"
 import phone from "../images/phone.png"
 
+export default function Home() {
+  return (
+    <Background>
+      <LogoContainer>
+        <img src={logo} alt="Cashpoint Logo"/>
+      </LogoContainer>
+      <FlexContainer>
+        <div>
+          <h1>Coming Soon!</h1>
+          <p>Our team is actively working on this project. See you around!</p>
+          <div>
+            <p>Sign up to get early access!</p>
+            <form>
+              <input type="text"/>
+              <button>Add me!</button>
+            </form>
+          </div>
+        </div>
+        <ImageContainer>
+          <img src={phone} alt="Cashpoint App" />
+        </ImageContainer>
+      </FlexContainer>
+    </Background>
+  );
+}
+
 const Background = styled.div`
   height: 100%;
   background-color: #596dc4;
@@ -93,29 +119,3 @@ const ImageContainer = styled.div`
     order: -1;
   }
 `
-
-export default function Home() {
-  return (
-    <Background>
-      <LogoContainer>
-        <img src={logo} alt="Cashpoint Logo"/>
-      </LogoContainer>
-      <FlexContainer>
-        <div>
-          <h1>Coming Soon!</h1>
-          <p>Our team is actively working on this project. See you around!</p>
-          <div>
-            <p>Sign up to get early access!</p>
-            <form>
-              <input type="text"/>
-              <button>Add me!</button>
-            </form>
-          </div>
-        </div>
-        <ImageContainer>
-          <img src={phone} alt="Cashpoint App" />
-        </ImageContainer>
-      </FlexContainer>
-    </Background>
-  );
-}
