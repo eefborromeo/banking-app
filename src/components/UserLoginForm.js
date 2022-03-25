@@ -73,6 +73,7 @@ export default function UserLoginForm() {
 
 const Form = styled.form`
   height: 40vh;
+  min-height: 300px;
   width: 25%;
   padding: 2rem;
   border-radius: 50px;
