@@ -6,9 +6,15 @@ import phone from "../images/phone.png"
 export default function Home() {
   return (
     <Background>
-      <LogoContainer>
-        <img src={logo} alt="Cashpoint Logo"/>
-      </LogoContainer>
+      <NavContainer>
+        <LogoContainer>
+          <img src={logo} alt="Cashpoint Logo"/>
+        </LogoContainer>
+        <div>
+          <button>Sign Up</button>
+          <button>Login</button>
+        </div>
+      </NavContainer>
       <FlexContainer>
         <div>
           <h1>Coming Soon!</h1>
@@ -32,6 +38,23 @@ export default function Home() {
 const Background = styled.div`
   height: 100%;
   background-color: #596dc4;
+`
+
+const NavContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: auto;
+  button {
+    border: none;
+    background-color: #415195;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    color: #fff;
+    font-weight: 600;
+    margin-left: 20px;
+  }
 `
 
 const LogoContainer = styled.div`
