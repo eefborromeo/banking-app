@@ -22,7 +22,7 @@ function App() {
         <Route path="user/signup" element={<UserForm title="User Sign Up" />} />
         <Route path="user/login" element={<UserLoginForm />} />
 
-        <Route path="admin" element={<Layout />}>
+        <Route path="admin" element={<Layout isAdmin={true} />}>
           <Route index element={<Dashboard />} />
           <Route path="users" element={<AllUsers />} />
           <Route
@@ -38,6 +38,7 @@ function App() {
 
         <Route path="user" element={<Layout />}>
           <Route index element={<UserDashboard />} />
+          <Route path="transactions" element={<User />} />
         </Route>
       </Routes>
     </ThemeProvider>
