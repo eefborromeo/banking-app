@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useStore } from "../store";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -9,22 +9,22 @@ export default function NewUser() {
   const users = useStore((state) => state.users);
   const loggedInUser = useStore((state) => state.currentUser);
   const setUsers = useStore((state) => state.setUsers);
-  const addToTransactionsLog = useStore((state) => state.addTransactionsLog);
+
   const userParams = useParams();
   const userId = userParams.id ? parseInt(userParams.id) : loggedInUser;
   const currentUser = users.find((user) => user.id === userId);
   const [values, setValues] = useState({
-    withdraw_amount: 0,
-    deposit_amount: 0,
-    transfer_amount: 0,
     expense_amount: 0,
   });
-  const [selectedId, setSelectedId] = useState(0);
-  const [searchDisplay, setSearchDisplay] = useState(false);
-  const [search, setSearch] = useState("");
+
   const [expenseName, setExpenseName] = useState("");
-  const [searchList, setSearchList] = useState(users);
-  const [isDisabled, setIsDisabled] = useState(true);
+
+  const totalExpenses = currentUser.expenseItems
+    .map((items) => items.value)
+    .reduce((previous, current) => previous + current, 0);
+
+  const estimatedBalance = currentUser.balance - totalExpenses;
+
 
   const changeHandler = (e) => {
     const key = e.target.id;
@@ -39,110 +39,17 @@ export default function NewUser() {
     setExpenseName(e.target.value);
   };
 
-  const depositSubmitHandler = (e) => {
-    e.preventDefault();
-    const updatedUsers = users.map((user) => {
-      if (user.id === currentUser.id) {
-        return {
-          ...user,
-          balance: user.balance + values.deposit_amount,
-        };
-      } else {
-        return user;
-      }
-    });
-    setUsers(updatedUsers);
-    setValues((values) => ({ ...values, deposit_amount: 0 }));
-  };
-
-  const withdrawSubmitHandler = (e) => {
-    e.preventDefault();
-    const updatedUsers = users.map((user) => {
-      if (user.id === currentUser.id) {
-        return {
-          ...user,
-          balance: user.balance - values.withdraw_amount,
-        };
-      } else {
-        return user;
-      }
-    });
-    setUsers(updatedUsers);
-    setValues((values) => ({ ...values, withdraw_amount: 0 }));
-  };
-
-  const handleSelectedSubmit = (e) => {
-    e.preventDefault();
-    if (selectedId === 0) {
-      alert(`Please select a user.`);
-      return;
-    }
-    const selectedUser = users.find((user) => user.id === selectedId);
-    const updatedUsers = users.map((user) => {
-      if (user.id === currentUser.id) {
-        return {
-          ...user,
-          balance: user.balance - values.transfer_amount,
-        };
-      } else if (user.id === selectedUser.id) {
-        return {
-          ...user,
-          balance: user.balance + values.transfer_amount,
-        };
-      } else {
-        return user;
-      }
-    });
-    setUsers(updatedUsers);
-
-    const transaction = {
-      sender: currentUser.name,
-      reciever: selectedUser.name,
-      amount: values.transfer_amount,
-    };
-
-    addToTransactionsLog(transaction);
-  };
-
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-    search.length === 1 ? setSearchDisplay(false) : setSearchDisplay(true);
-  };
-
-  const handleClick = (e) => {
-    setSearch(e.target.innerHTML);
-    setSelectedId(parseInt(e.target.id));
-    setSearchDisplay(false);
-    setIsDisabled(false);
-  };
-
-  useEffect(() => {
-    if (search === "") {
-      setSearchList(users);
-    } else {
-      setSearchList(
-        users.filter((user) =>
-          user.name.toLowerCase().match(search.toLowerCase())
-        )
-      );
-    }
-  }, [search, users]);
-
   const expenseSubmitHandler = (e) => {
     e.preventDefault();
     const expenseItemObject = {
       name: expenseName,
       value: values.expense_amount,
-    }
+    };
     const updatedUsers = users.map((user) => {
       if (user.id === currentUser.id) {
         return {
           ...user,
-          balance: user.balance - values.expense_amount,
-          expenseItems: [
-            ...user.expenseItems,
-            expenseItemObject
-          ]
+          expenseItems: [...user.expenseItems, expenseItemObject],
         };
       } else {
         return user;
@@ -157,13 +64,12 @@ export default function NewUser() {
       <div className="grid">
         <div className="rowOne">
           <div className="box expense">
-            <h1 className="bold"> Good Morning, {currentUser.name}</h1>
-            <h2>{currentUser.email}</h2>
+            <h1 className="bold">Good Morning, {currentUser.name}</h1>
             <div className="mode">
               <BiCreditCard />
             </div>
-            <h3 className="bold"> Balance</h3>
-            <h4> ${currentUser.balance}</h4>
+            <h3 className="bold">Estimated Balance</h3>
+            <h4>${estimatedBalance}</h4>
           </div>
           {/* EXPENSESSESESESES ITEMSSS */}
           <div className="box">
@@ -187,81 +93,14 @@ export default function NewUser() {
               </button>
             </form>
             <div>
-              {currentUser.expenseItems.map((item,idx) => {
-                return <li key={idx}>{item.name} -{item.value}</li>
-              })} 
+              {currentUser.expenseItems.map((item, idx) => {
+                return (
+                  <li key={idx}>
+                    {item.name} -{item.value}
+                  </li>
+                );
+              })}
             </div>
-          </div>
-        </div>
-        {/* WITHDRAAAAWWWWWWWW */}
-        <div className="rowTwo">
-          <div className="box">
-            <p className="bold">Withdraw</p>
-            <form onSubmit={withdrawSubmitHandler}>
-              <input
-                id="withdraw_amount"
-                type="number"
-                value={values.withdraw_amount}
-                onChange={changeHandler}
-                min="0"
-              />
-              <button>Withdraw</button>
-            </form>
-          </div>
-          {/* DEPOSIIIIIIIIT */}
-          <div className="box">
-            <p className="bold">Deposit</p>
-            <form onSubmit={depositSubmitHandler}>
-              <input
-                id="deposit_amount"
-                value={values.deposit_amount}
-                onChange={changeHandler}
-                type="number"
-                min="0"
-              />
-              <button>Deposit</button>
-            </form>
-          </div>
-          {/* TRANSFEEERRRRRRRRR */}
-          <div className="box">
-            <p className="bold">Transfer</p>
-            <form onSubmit={handleSelectedSubmit}>
-              <label htmlFor="user">Account Name:</label>
-              <Dropdown>
-                <input
-                  id="user"
-                  value={search}
-                  onChange={handleSearch}
-                  autoComplete="off"
-                />
-                {searchDisplay && (
-                  <div className="options">
-                    {searchList.map((user) => {
-                      if (user.id !== currentUser.id) {
-                        return (
-                          <div key={user.id} id={user.id} onClick={handleClick}>
-                            {user.name}
-                          </div>
-                        );
-                      }
-                      return null;
-                    })}
-                  </div>
-                )}
-              </Dropdown>
-              <label htmlFor="transfer">Amount:</label>
-              <input
-                id="transfer_amount"
-                type="number"
-                name="transfer"
-                value={values.transfer_amount}
-                onChange={changeHandler}
-                min="0"
-              />
-              <label htmlFor="remarks">Remarks:</label>
-              <textarea></textarea>
-              <button disabled={isDisabled}>Transfer</button>
-            </form>
           </div>
         </div>
       </div>
@@ -284,17 +123,17 @@ const Section = styled.section`
       padding: 2rem;
       width: 100%;
       margin: 0 auto 1rem;
-  
+
       h1 {
         color: ${(themes) => themes.theme.thColor};
         font-size: 50px;
       }
-  
+
       p {
         color: ${(themes) => themes.theme.thColor};
         font-size: 30px;
       }
-  
+
       span {
         font-size: 2rem;
         color: ${(themes) => themes.theme.thColor};
@@ -326,16 +165,16 @@ const Section = styled.section`
         text-align: center;
       }
     }
-  
+
     form {
       text-align: left;
     }
-  
+
     label {
       display: block;
       margin-bottom: 1rem;
     }
-  
+
     input {
       border: none;
       border-bottom: 2px solid rgb(236, 236, 236);
@@ -360,7 +199,7 @@ const Section = styled.section`
         background-color: rgb(236, 236, 236);
       }
     }
-  
+
     select {
       width: 100%;
       padding: 5px;
@@ -373,7 +212,7 @@ const Section = styled.section`
       color: ${(themes) => themes.theme.textColor};
       font-size: 20px;
     }
-  
+
     textarea {
       width: 100%;
       height: 10vh;
@@ -432,24 +271,6 @@ const Section = styled.section`
         font-size: 40px;
         line-height: 100px;
         font-family: "Bebas Neue", cursive;
-      }
-    }
-  }
-`;
-
-const Dropdown = styled.div`
-  position: relative;
-  .options {
-    position: absolute;
-    width: 100%;
-
-    div {
-      background: rgb(236, 236, 236);
-      padding: 1rem;
-
-      :hover {
-        background: #596dc4;
-        color: #fff;
       }
     }
   }

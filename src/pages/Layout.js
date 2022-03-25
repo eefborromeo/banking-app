@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { BiMenu, BiX, BiAddToQueue, BiListUl, BiHome } from "react-icons/bi";
+import { BiAddToQueue, BiHome, BiListUl, BiMenu, BiX } from "react-icons/bi";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 import LoginForm from "../components/LoginForm";
@@ -9,12 +9,14 @@ import { useStore } from "../store";
 import logo from "../images/logo.png";
 import UserLoginForm from "../components/UserLoginForm";
 
-export default function Layout() {
+export default function Layout({ isAdmin }) {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const isAdminLoggedIn = useStore((state) => state.adminLoggedIn);
+  const users = useStore((state) => state.users);
   const currentUser = useStore((state) => state.currentUser);
   const userLogOut = useStore((state) => state.userLogOut);
-  const { pathname } = useLocation();
+
+  const loggedInUser = users.find((user) => user.id === currentUser);
 
   const theme = useStore((state) => state.currentTheme);
   const setTheme = useStore((state) => state.setTheme);
@@ -28,9 +30,9 @@ export default function Layout() {
     }
   };
 
-  if (!isAdminLoggedIn && pathname.includes("admin")) {
+  if (!isAdminLoggedIn && isAdmin) {
     return <LoginForm />;
-  } else if (!currentUser && !pathname.includes("admin")) {
+  } else if (!currentUser && !isAdmin) {
     return <UserLoginForm />;
   }
 
@@ -41,29 +43,29 @@ export default function Layout() {
     <ParentDiv>
       <TopBar>
         <div>
-          {pathname.includes("admin") && (
-            <button className="modeOne" onClick={toggleSideBar}>
-              {isSideBarOpen ? <BiMenu /> : <BiX />}
-            </button>
-          )}
-            <img src={logo} alt="Cashpoint Logo" />
+          <button className="modeOne" onClick={toggleSideBar}>
+            {isSideBarOpen ? <BiMenu /> : <BiX />}
+          </button>
+          <img src={logo} alt="Cashpoint Logo" />
         </div>
         <div>
           <button className="mode" onClick={toggleTheme}>
             {theme === "light" ? <FiMoon /> : <FiSun />}
           </button>
-          {!pathname.includes("admin") && (
-            <button onClick={userLogOut} className="mode"><MdLogout /></button>
-          )
-          }
-          {pathname.includes("admin") && (
-            <button onClick={logOut} className="mode"><MdLogout /></button>
-          )
-          }
+          {!isAdmin && (
+            <button onClick={userLogOut} className="mode">
+              <MdLogout />
+            </button>
+          )}
+          {isAdmin && (
+            <button onClick={logOut} className="mode">
+              <MdLogout />
+            </button>
+          )}
         </div>
       </TopBar>
       <StyledLayout>
-        {pathname.includes("admin") ? (
+        {isAdmin ? (
           <SideBar isSideBarOpen={isSideBarOpen}>
             <ul>
               <StyledLink activeclassname="active" end to="/admin">
@@ -77,7 +79,22 @@ export default function Layout() {
               </StyledLink>
             </ul>
           </SideBar>
-        ) : null}
+        ) : (
+          <SideBar isSideBarOpen={isSideBarOpen}>
+            <ul>
+              <div>
+                <p>Actual balance:</p>
+                <h1>{loggedInUser.balance}</h1>
+              </div>
+              <StyledLink activeclassname="active" end to="/user">
+                <BiHome /> Dashboard
+              </StyledLink>
+              <StyledLink activeclassname="active" end to="/user/transactions">
+                <BiListUl /> Transaction
+              </StyledLink>
+            </ul>
+          </SideBar>
+        )}
         <OutletLayout>
           <Outlet />
         </OutletLayout>
@@ -97,7 +114,6 @@ const StyledLink = styled(NavLink)`
   flex-direction: row;
   font-size: 20px;
   gap: 10px;
-  
 
   &.active {
     background: #596dc4;
