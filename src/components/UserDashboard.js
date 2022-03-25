@@ -186,6 +186,11 @@ export default function NewUser() {
                 <GrAdd />
               </button>
             </form>
+            <div>
+              {currentUser.expenseItems.map(item => {
+                return <li>{item.name} -{item.value}</li>
+              })} 
+            </div>
           </div>
         </div>
         {/* WITHDRAAAAWWWWWWWW */}
