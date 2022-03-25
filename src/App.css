@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;700&display=swap');
 
 * {
   box-sizing: border-box;
@@ -136,6 +136,6 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-.bold{
+.bold {
   font-family: 'Bebas Neue', cursive;
 }
