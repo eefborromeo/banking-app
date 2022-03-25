@@ -61,7 +61,7 @@ export default function UserSignUpForm({ title, isAdmin }) {
       alert(`the name "${name}" is already taken`);
     } else if (!isEditing && !isAdmin) {
       addUser(newUser);
-      navigate(`/user`);
+      navigate(`/user/login`);
     } else if (!isEditing && isAdmin) {
       addUser({ ...newUser, status: "APPROVED" });
       navigate(`/admin/users`);
