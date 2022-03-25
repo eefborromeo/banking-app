@@ -17,11 +17,12 @@ export default function NewUser() {
     withdraw_amount: 0,
     deposit_amount: 0,
     transfer_amount: 0,
+    expense_amount: 0,
   });
-
   const [selectedId, setSelectedId] = useState(0);
   const [searchDisplay, setSearchDisplay] = useState(false);
   const [search, setSearch] = useState("");
+  const [expenseName, setExpenseName] = useState("");
   const [searchList, setSearchList] = useState(users);
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -32,6 +33,10 @@ export default function NewUser() {
       ...values,
       [key]: value,
     }));
+  };
+
+  const expenseHandler = (e) => {
+    setExpenseName(e.target.value);
   };
 
   const depositSubmitHandler = (e) => {
@@ -123,6 +128,30 @@ export default function NewUser() {
     }
   }, [search, users]);
 
+  const expenseSubmitHandler = (e) => {
+    e.preventDefault();
+    const expenseItemObject = {
+      name: expenseName,
+      value: values.expense_amount,
+    }
+    const updatedUsers = users.map((user) => {
+      if (user.id === currentUser.id) {
+        return {
+          ...user,
+          balance: user.balance - values.expense_amount,
+          expenseItems: [
+            ...user.expenseItems,
+            expenseItemObject
+          ]
+        };
+      } else {
+        return user;
+      }
+    });
+    setUsers(updatedUsers);
+    setValues((values) => ({ ...values, expense_amount: 0 }));
+  };
+
   return (
     <Section>
       <div className="grid">
@@ -136,18 +165,19 @@ export default function NewUser() {
             <h3 className="bold"> Balance</h3>
             <h4> ${currentUser.balance}</h4>
           </div>
+          {/* EXPENSESSESESESES ITEMSSS */}
           <div className="box">
             <p className="bold">Expenses</p>
-            <form onSubmit={depositSubmitHandler}>
+            <form onSubmit={expenseSubmitHandler}>
               <input
-                id="deposit_amount"
-                value={values.deposit_amount}
-                onChange={changeHandler}
+                id="expense_name"
+                value={expenseName}
+                onChange={expenseHandler}
                 type="text"
               />
               <input
-                id="deposit_amount"
-                value={values.deposit_amount}
+                id="expense_amount"
+                value={values.expense_amount}
                 onChange={changeHandler}
                 type="number"
                 min="0"
@@ -158,6 +188,7 @@ export default function NewUser() {
             </form>
           </div>
         </div>
+        {/* WITHDRAAAAWWWWWWWW */}
         <div className="rowTwo">
           <div className="box">
             <p className="bold">Withdraw</p>
@@ -172,6 +203,7 @@ export default function NewUser() {
               <button>Withdraw</button>
             </form>
           </div>
+          {/* DEPOSIIIIIIIIT */}
           <div className="box">
             <p className="bold">Deposit</p>
             <form onSubmit={depositSubmitHandler}>
@@ -185,6 +217,7 @@ export default function NewUser() {
               <button>Deposit</button>
             </form>
           </div>
+          {/* TRANSFEEERRRRRRRRR */}
           <div className="box">
             <p className="bold">Transfer</p>
             <form onSubmit={handleSelectedSubmit}>
@@ -238,7 +271,7 @@ const Section = styled.section`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    color: ${(themes) => themes.theme.textColor};
+    color: ${(themes) => themes.theme.textgitColor};
 
     .box {
       background-color: ${(themes) => themes.theme.boxBackground};
