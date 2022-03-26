@@ -12,11 +12,8 @@ import UserLoginForm from "../components/UserLoginForm";
 export default function Layout({ isAdmin }) {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const isAdminLoggedIn = useStore((state) => state.adminLoggedIn);
-  const users = useStore((state) => state.users);
   const currentUser = useStore((state) => state.currentUser);
   const userLogOut = useStore((state) => state.userLogOut);
-
-  const loggedInUser = users.find((user) => user.id === currentUser);
 
   const theme = useStore((state) => state.currentTheme);
   const setTheme = useStore((state) => state.setTheme);
@@ -82,10 +79,6 @@ export default function Layout({ isAdmin }) {
         ) : (
           <SideBar isSideBarOpen={isSideBarOpen}>
             <ul>
-              <div>
-                <p>Actual balance:</p>
-                <h1>{loggedInUser.balance}</h1>
-              </div>
               <StyledLink activeclassname="active" end to="/user">
                 <BiHome /> Dashboard
               </StyledLink>
@@ -121,6 +114,7 @@ const StyledLink = styled(NavLink)`
     border-radius: 10px;
     color: ${(themes) => themes.theme.sunColor};
   }
+
 `;
 
 const SideBar = styled.div`

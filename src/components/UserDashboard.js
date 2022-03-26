@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BiCreditCard } from "react-icons/bi";
 import { GrAdd } from "react-icons/gr";
+import { BiTrash } from "react-icons/bi";
 
 export default function NewUser() {
   const users = useStore((state) => state.users);
@@ -24,7 +25,6 @@ export default function NewUser() {
     .reduce((previous, current) => previous + current, 0);
 
   const estimatedBalance = currentUser.balance - totalExpenses;
-
 
   const changeHandler = (e) => {
     const key = e.target.id;
@@ -59,19 +59,39 @@ export default function NewUser() {
     setValues((values) => ({ ...values, expense_amount: 0 }));
   };
 
+  function expenseDelete(e, itemName) {
+    e.stopPropagation();
+    const updatedExpenseItems = currentUser.expenseItems.filter((item) => {
+     return item.name !== itemName;
+    });
+    const updatedUsers = users.map((user) => {
+      if (user.id === currentUser.id) {
+        return {
+          ...user,
+          expenseItems: updatedExpenseItems
+        }
+      } else {
+        return user;
+      }
+    })
+    setUsers(updatedUsers);
+  }
+
   return (
     <Section>
       <div className="grid">
         <div className="rowOne">
           <div className="box expense">
             <h1 className="bold">Good Morning, {currentUser.name}</h1>
+            
             <div className="mode">
               <BiCreditCard />
             </div>
+            <h3 className="bold">Actual Balance</h3>
+            <h4>${currentUser.balance}</h4>
             <h3 className="bold">Estimated Balance</h3>
             <h4>${estimatedBalance}</h4>
           </div>
-          {/* EXPENSESSESESESES ITEMSSS */}
           <div className="box">
             <p className="bold">Expenses</p>
             <form onSubmit={expenseSubmitHandler}>
@@ -92,15 +112,33 @@ export default function NewUser() {
                 <GrAdd />
               </button>
             </form>
-            <div>
-              {currentUser.expenseItems.map((item, idx) => {
-                return (
-                  <li key={idx}>
-                    {item.name} -{item.value}
-                  </li>
-                );
-              })}
-            </div>
+          </div>
+        </div>
+        <div className="rowTwo">
+          <div className="box items">
+            <h1 className="bold">Expenses</h1>
+            <Table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentUser.expenseItems.map((item, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td>{item.name}</td>
+                      <td>{item.value}</td>
+                      <td>
+                        <BiTrash onClick={(e) => expenseDelete(e, item.name)} />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
           </div>
         </div>
       </div>
@@ -142,30 +180,6 @@ const Section = styled.section`
       }
     }
 
-    .transactions {
-      display: flex;
-      flex-wrap: wrap;
-      width: 100%;
-      margin: auto;
-      gap: 10px;
-      > div {
-        flex: 1;
-        color: ${(themes) => themes.theme.textColor};
-      }
-      div:nth-child(1) {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      .box {
-        box-sizing: border-box;
-        height: 50%;
-        width: 100%;
-        margin: 0 0 10px;
-        text-align: center;
-      }
-    }
-
     form {
       text-align: left;
     }
@@ -200,26 +214,6 @@ const Section = styled.section`
       }
     }
 
-    select {
-      width: 100%;
-      padding: 5px;
-      outline: none;
-      border: none;
-      -o-border: none;
-      border-bottom: 2px solid rgb(236, 236, 236);
-      margin-bottom: 1rem;
-      background: ${(themes) => themes.theme.inputBackground};
-      color: ${(themes) => themes.theme.textColor};
-      font-size: 20px;
-    }
-
-    textarea {
-      width: 100%;
-      height: 10vh;
-      border: 2px solid rgb(236, 236, 236);
-      background: ${(themes) => themes.theme.inputBackground};
-    }
-
     .bold {
       font-size: 40px;
       line-height: 50px;
@@ -235,7 +229,7 @@ const Section = styled.section`
 
     .rowTwo {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(1, 1fr);
       gap: 1rem;
       height: 40%;
     }
@@ -272,6 +266,75 @@ const Section = styled.section`
         line-height: 100px;
         font-family: "Bebas Neue", cursive;
       }
+    }
+
+    .items {
+      background-color: ${(themes) => themes.theme.boxBackground};
+      width: 100%;
+      height: 100%;
+      text-align: center;
+
+      h1 {
+        color: ${(themes) => themes.theme.thColor};
+        font-size: 50px;
+        text-align: center;
+      }
+    }
+  }
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  color: ${(themes) => themes.theme.textColor};
+
+  tr {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.45);
+    font-size: 20px;
+    th {
+      text-align: left;
+      padding: 1rem 0;
+      color: #596dc4;
+      color: ${(themes) => themes.theme.thColor};
+      font-size: 25px;
+      text-align: center;
+    }
+    td {
+      padding: 1rem 0.5rem;
+      text-transform: capitalize;
+      text-decoration: none;
+      width: 25%;
+      font-size: 15px;
+      svg {
+        width: 2em;
+        height: 1.5em;
+        margin-left: 10px;
+        color: rgba(117, 138, 229, 1);
+      }
+      button {
+        padding: 8px 12px;
+        border: none;
+        background: rgba(117, 138, 229, 1);
+        color: #fff;
+        border-radius: 5px;
+      }
+    }
+  }
+
+  tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  tbody tr:hover {
+    background-color: rgba(117, 138, 229, 1);
+    color: white;
+    cursor: pointer;
+    td svg {
+      color: #fff;
+    }
+    button {
+      background: #fff;
+      color: rgba(117, 138, 229, 1);
     }
   }
 `;
