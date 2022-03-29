@@ -105,7 +105,7 @@ export default function TransferForm({ currentUser }) {
         </Dropdown>
         <label htmlFor="transfer">Amount:</label>
         <input
-          id="transfer_amount"
+          id="transfer"
           type="number"
           name="transfer"
           value={transactionValue}
@@ -114,7 +114,7 @@ export default function TransferForm({ currentUser }) {
         />
         <label htmlFor="remarks">Remarks:</label>
         <textarea></textarea>
-        <button disabled={isDisabled}>Transfer</button>
+        <button data-testid="transfer-button" disabled={isDisabled}>Transfer</button>
       </form>
     </div>
   );
