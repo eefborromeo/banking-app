@@ -15,7 +15,7 @@ export default function Home() {
         </LogoContainer>
         <div>
           <Link to="user/signup"><button>Sign Up</button></Link>
-          <Link to="user/login"> <button>Login</button></Link>
+          <Link to="user"> <button>Login</button></Link>
         </div>
       </NavContainer>
       <FlexContainer>
